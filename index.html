@@ -3,223 +3,975 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ИнгоШоп — Корпоративный мерч Ингосстрах</title>
+  <title>ИнгоШоп — Мерч СПАО «Ингосстрах»</title>
   
-  <!-- Шрифты Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS и Vue 3 (CDN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-
   <style>
+    /* Базовые сбросы и переменные бренда Ингосстрах */
+    :root {
+      --ingos-blue: #002F6C;
+      --ingos-dark: #001D44;
+      --ingos-light: #F0F4FA;
+      --border-color: #E2E8F0;
+      --bg-page: #F8FAFC;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
-    /* Плавный скроллбар */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+
+    /* Шапка сайта */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 40;
     }
-    ::-webkit-scrollbar-track {
-      background: transparent;
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 64px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #E5E7EB;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .brand-mark {
+      width: 8px;
+      height: 28px;
+      background: var(--ingos-blue);
+      border-radius: 4px;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--ingos-blue);
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: 6px;
+      font-weight: 400;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      transition: background 0.15s;
+      position: relative;
+    }
+
+    .btn-icon:hover {
+      background: #F1F5F9;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: var(--ingos-blue);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Основная сетка */
+    main {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px;
+      flex-grow: 1;
+    }
+
+    /* Категории (чипсы) */
+    .categories-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cat-btn {
+      padding: 6px 16px;
       border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      color: var(--text-muted);
+      transition: all 0.15s;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #D1D5DB;
+
+    .cat-btn.active {
+      background: var(--ingos-blue);
+      color: #fff;
+      border-color: var(--ingos-blue);
+    }
+
+    /* Сетка товаров */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .product-card:hover {
+      border-color: #94A3B8;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transform: translateY(-2px);
+    }
+
+    .product-preview {
+      height: 200px;
+      background: #F8FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .product-preview svg {
+      width: 72px;
+      height: 72px;
+      stroke: var(--ingos-blue);
+      opacity: 0.85;
+    }
+
+    .product-category-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .product-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .product-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .product-title:hover {
+      color: var(--ingos-blue);
+    }
+
+    .product-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #F1F5F9;
+      padding-top: 12px;
+    }
+
+    .product-code {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    .btn-select {
+      background: none;
+      border: none;
+      color: var(--ingos-blue);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-select:hover {
+      text-decoration: underline;
+    }
+
+    /* Модальные окна и оверлеи */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .modal-code {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-family: monospace;
+    }
+
+    .selector-group {
+      margin-bottom: 16px;
+    }
+
+    .selector-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .pills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .pill-btn.selected {
+      border-color: var(--ingos-blue);
+      background: var(--ingos-blue);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .qty-control {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+    }
+
+    .qty-btn {
+      padding: 4px 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    .qty-input {
+      width: 48px;
+      text-align: center;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--ingos-blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover {
+      background: var(--ingos-dark);
+    }
+
+    /* Боковая панель корзины */
+    .drawer {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      z-index: 60;
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease-in-out;
+    }
+
+    .drawer-right {
+      right: 0;
+      transform: translateX(100%);
+    }
+
+    .drawer-left {
+      left: 0;
+      transform: translateX(-100%);
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-body {
+      padding: 18px;
+      flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .drawer-footer {
+      padding: 18px;
+      border-top: 1px solid var(--border-color);
+      background: #F8FAFC;
+    }
+
+    .cart-item {
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+    }
+
+    .cart-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .cart-item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      margin-bottom: 8px;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: var(--ingos-blue);
+    }
+
+    footer {
+      background: #fff;
+      border-top: 1px solid var(--border-color);
+      padding: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
     }
   </style>
 </head>
-<body class="bg-[#FBFBFB] text-[#1D1D1F] antialiased selection:bg-[#002F6C] selection:text-white">
-  
-  <div id="app" class="min-h-screen flex flex-col justify-between">
-    
-    <!-- Шапка сайта -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        
-        <!-- Бургер и Название магазина -->
-        <div class="flex items-center space-x-4">
-          <button @click="isDrawerOpen = true" type="button" class="p-2 -ml-2 text-neutral-700 hover:text-black transition" aria-label="Открыть меню">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-            </svg>
-          </button>
-          
-          <div class="flex items-center space-x-3 cursor-pointer" @click="activeCategory = 'Все'">
-            <div class="w-2.5 h-7 bg-[#002F6C] rounded-full"></div>
-            <div>
-              <span class="text-lg font-semibold tracking-tight uppercase text-[#002F6C]">ИнгоШоп</span>
-              <span class="hidden sm:inline-block ml-2 text-xs text-neutral-400 font-normal">Мерч СПАО «Ингосстрах»</span>
-            </div>
-          </div>
-        </div>
+<body>
 
-        <!-- Поисковая строка и Корзина -->
-        <div class="flex items-center space-x-3 sm:space-x-4">
-          <div class="relative hidden sm:block">
-            <input 
-              v-model="searchQuery" 
-              type="text" 
-              placeholder="Поиск по каталогу..."
-              class="w-56 lg:w-72 pl-9 pr-4 py-1.5 text-xs bg-neutral-100 hover:bg-neutral-200/60 focus:bg-white border border-transparent focus:border-neutral-300 rounded-full outline-none transition"
-            >
-            <svg class="w-4 h-4 text-neutral-400 absolute left-3 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
-            </svg>
-          </div>
-
-          <button @click="isCartOpen = true" type="button" class="relative p-2 text-neutral-700 hover:text-black transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
-            </svg>
-            <span v-if="cartTotalCount > 0" class="absolute top-1 right-1 w-4 h-4 bg-[#002F6C] text-white text-[10px] font-semibold rounded-full flex items-center justify-center">
-              {{ cartTotalCount }}
-            </span>
-          </button>
-        </div>
-
-      </div>
-    </header>
-
-    <!-- Основной контент -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
-      
-      <!-- Горизонтальные фильтры категорий -->
-      <div class="flex items-center space-x-2 overflow-x-auto pb-4 mb-6 border-b border-neutral-100">
-        <button 
-          v-for="cat in categories" 
-          :key="cat"
-          @click="activeCategory = cat"
-          type="button"
-          :class="activeCategory === cat ? 'bg-[#002F6C] text-white' : 'bg-white text-neutral-600 hover:bg-neutral-100 border border-neutral-200'"
-          class="px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition"
-        >
-          {{ cat }}
+  <!-- Шапка сайта -->
+  <header>
+    <div class="header-inner">
+      <div class="brand" onclick="filterCategory('Все')">
+        <button class="btn-icon" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
-      </div>
-
-      <!-- Сетка карточек товаров -->
-      <div v-if="filteredProducts.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div 
-          v-for="product in filteredProducts" 
-          :key="product.id"
-          class="group bg-white border border-neutral-200 rounded-xl overflow-hidden flex flex-col justify-between hover:border-neutral-400 hover:shadow-sm transition duration-200"
-        >
-          <!-- Область предпросмотра -->
-          <div @click="openQuickView(product)" class="cursor-pointer bg-neutral-50 h-56 p-6 flex items-center justify-center relative overflow-hidden">
-            <span class="text-xs uppercase tracking-wider text-neutral-400 absolute top-3 left-3">{{ product.category }}</span>
-            <div class="text-neutral-400 group-hover:scale-105 transition-transform duration-300" v-html="product.iconSvg"></div>
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition flex items-center justify-center">
-              <span class="opacity-0 group-hover:opacity-100 bg-white/95 text-neutral-800 text-xs px-3 py-1.5 rounded-full shadow-sm font-medium transition duration-200">
-                Подробнее
-              </span>
-            </div>
-          </div>
-
-          <!-- Название, описание и кнопка выбора -->
-          <div class="p-4 flex flex-col flex-grow justify-between">
-            <div>
-              <h3 @click="openQuickView(product)" class="text-sm font-medium text-neutral-900 line-clamp-1 cursor-pointer hover:text-[#002F6C]">
-                {{ product.title }}
-              </h3>
-              <p class="text-xs text-neutral-500 mt-1 line-clamp-2">{{ product.description }}</p>
-            </div>
-
-            <div class="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between">
-              <span class="text-xs text-neutral-400 font-mono">{{ product.code }}</span>
-              <button 
-                @click="openQuickView(product)"
-                type="button"
-                class="text-xs font-semibold text-[#002F6C] hover:text-[#001D44] underline-offset-4 hover:underline"
-              >
-                Выбрать параметры →
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Заглушка при отсутствии совпадений -->
-      <div v-else class="text-center py-20">
-        <p class="text-sm text-neutral-500">По вашему запросу товары не найдены.</p>
-        <button @click="searchQuery = ''; activeCategory = 'Все'" type="button" class="mt-3 text-xs text-[#002F6C] font-semibold underline">
-          Сбросить фильтры
-        </button>
-      </div>
-
-    </main>
-
-    <!-- Подвал сайта -->
-    <footer class="bg-white border-t border-neutral-200 py-6 mt-12">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-neutral-400">
-        © 2026 СПАО «Ингосстрах». ИнгоШоп — корпоративная сувенирная продукция.
-      </div>
-    </footer>
-
-    <!-- Бургер-меню (Выдвижная панель слева) -->
-    <div v-if="isDrawerOpen" class="fixed inset-0 z-50 flex">
-      <div @click="isDrawerOpen = false" class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity"></div>
-      <div class="relative w-full max-w-xs bg-white h-full shadow-xl z-10 flex flex-col justify-between p-6">
+        <div class="brand-mark"></div>
         <div>
-          <div class="flex items-center justify-between pb-4 border-b border-neutral-200">
-            <span class="text-sm font-semibold uppercase tracking-wider text-[#002F6C]">Категории мерча</span>
-            <button @click="isDrawerOpen = false" type="button" class="text-neutral-400 hover:text-black">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
-            </button>
-          </div>
-          <nav class="mt-6 space-y-1">
-            <button 
-              v-for="cat in categories" 
-              :key="cat"
-              @click="activeCategory = cat; isDrawerOpen = false"
-              type="button"
-              :class="activeCategory === cat ? 'bg-neutral-100 text-[#002F6C] font-semibold' : 'text-neutral-600 hover:bg-neutral-50 font-normal'"
-              class="w-full text-left px-3 py-2.5 rounded-lg text-sm transition flex items-center justify-between"
-            >
-              <span>{{ cat }}</span>
-              <span class="text-xs text-neutral-400 font-mono">{{ getCategoryCount(cat) }}</span>
-            </button>
-          </nav>
+          <span class="brand-title">ИнгоШоп</span>
+          <span class="brand-subtitle">Мерч Ингосстрах</span>
         </div>
-        <div class="text-[11px] text-neutral-400 border-t border-neutral-100 pt-4">
-          Служба поддержки: merch@ingos.ru
-        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn-icon" onclick="openDrawer('cartDrawer')" aria-label="Открыть корзину">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span id="cartCountBadge" class="cart-badge" style="display: none;">0</span>
+        </button>
       </div>
     </div>
+  </header>
 
-    <!-- Модальное окно выбора параметров (Карточка товара) -->
-    <div v-if="selectedProduct" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div @click="selectedProduct = null" class="fixed inset-0 bg-black/40 backdrop-blur-sm"></div>
-      <div class="relative bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10 overflow-hidden">
-        <div class="flex items-start justify-between pb-4 border-b border-neutral-100">
-          <div>
-            <span class="text-xs uppercase font-mono text-neutral-400">{{ selectedProduct.category }} • {{ selectedProduct.code }}</span>
-            <h2 class="text-lg font-semibold text-neutral-900 mt-0.5">{{ selectedProduct.title }}</h2>
-          </div>
-          <button @click="selectedProduct = null" type="button" class="text-neutral-400 hover:text-neutral-700">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
+  <!-- Основной раздел -->
+  <main>
+    <!-- Горизонтальные категории -->
+    <div class="categories-bar" id="categoriesBar"></div>
+
+    <!-- Сетка товаров -->
+    <div class="products-grid" id="productsGrid"></div>
+  </main>
+
+  <!-- Подвал сайта -->
+  <footer>
+    © 2026 СПАО «Ингосстрах». Официальный каталог корпоративной продукции.
+  </footer>
+
+  <!-- Бургер-меню (Выдвигается слева) -->
+  <div class="drawer drawer-left" id="burgerDrawer">
+    <div class="drawer-header">
+      <h3 style="font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ingos-blue);">Категории каталога</h3>
+      <button class="btn-icon" onclick="closeDrawer('burgerDrawer')">✕</button>
+    </div>
+    <div class="drawer-body" id="burgerNavList"></div>
+    <div class="drawer-footer" style="font-size: 11px; color: var(--text-muted);">
+      Вопросы по тиражам: merch@ingos.ru
+    </div>
+  </div>
+
+  <!-- Корзина (Выдвигается справа) -->
+  <div class="drawer drawer-right" id="cartDrawer">
+    <div class="drawer-header">
+      <h3 style="font-size: 15px; font-weight: 600;">Корзина заказа</h3>
+      <button class="btn-icon" onclick="closeDrawer('cartDrawer')">✕</button>
+    </div>
+    <div class="drawer-body" id="cartItemsList">
+      <p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-top: 40px;">Корзина пока пуста</p>
+    </div>
+    <div class="drawer-footer" id="cartFooter" style="display: none;">
+      <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Данные получателя</h4>
+      <form onsubmit="submitOrder(event)">
+        <input type="text" id="orderFio" class="input-field" placeholder="ФИО сотрудника *" required>
+        <input type="email" id="orderEmail" class="input-field" placeholder="Корпоративная почта *" required>
+        <input type="tel" id="orderPhone" class="input-field" placeholder="Номер телефона *" required>
+        <textarea id="orderAddress" class="input-field" rows="2" placeholder="Адрес доставки (город, офис, этаж) *" required style="resize: none;"></textarea>
+        <button type="submit" class="btn-primary" style="margin-top: 4px;">Сформировать заявку</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно выбора параметров товара -->
+  <div class="overlay" id="productModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <div class="modal-code" id="modalProductCode">ING-000</div>
+          <div class="modal-title" id="modalProductTitle">Название товара</div>
         </div>
+        <button class="btn-icon" onclick="closeModal()">✕</button>
+      </div>
 
-        <div class="py-4 space-y-5">
-          <p class="text-xs text-neutral-600 leading-relaxed">{{ selectedProduct.details }}</p>
+      <p id="modalProductDesc" style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4;"></p>
 
-          <!-- Выбор размера -->
-          <div v-if="selectedProduct.sizes && selectedProduct.sizes.length">
-            <label class="block text-xs font-medium text-neutral-700 mb-2">Выберите размер</label>
-            <div class="flex flex-wrap gap-2">
-              <button 
-                v-for="size in selectedProduct.sizes" 
-                :key="size"
-                @click="itemForm.size = size"
-                type="button"
-                :class="itemForm.size === size ? 'border-[#002F6C] bg-[#002F6C] text-white' : 'border-neutral-20
+      <div class="selector-group" id="sizeSelectorGroup">
+        <label class="selector-label">Выберите размер</label>
+        <div class="pills-list" id="modalSizesList"></div>
+      </div>
+
+      <div class="selector-group" id="colorSelectorGroup">
+        <label class="selector-label">Цвет изделия</label>
+        <div class="pills-list" id="modalColorsList"></div>
+      </div>
+
+      <div class="selector-group">
+        <label class="selector-label">Количество (тираж, шт.)</label>
+        <div class="qty-control">
+          <button type="button" class="qty-btn" onclick="adjustQty(-1)">-</button>
+          <input type="number" id="modalQtyInput" class="qty-input" value="1" min="1">
+          <button type="button" class="qty-btn" onclick="adjustQty(1)">+</button>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" onclick="confirmAddToCart()" style="margin-top: 8px;">Добавить в корзину</button>
+    </div>
+  </div>
+
+  <!-- Оверлей для закрытия боковых панелей -->
+  <div class="overlay" id="backdropOverlay" onclick="closeAllDrawers()"></div>
+
+  <!-- Чистый нативный JavaScript -->
+  <script>
+    // 1. Каталог товаров СПАО «Ингосстрах» 2026
+    const PRODUCTS = [
+      {
+        id: 1,
+        code: 'ING-101',
+        title: 'Толстовка с капюшоном Urban с начесом',
+        category: 'Одежда',
+        description: 'Плотный футер с мягким начесом, карман-кенгуру, лаконичный логотип Ингосстрах.',
+        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+        colors: ['Серый меланж', 'Фирменный синий']
+      },
+      {
+        id: 2,
+        code: 'ING-102',
+        title: 'Футболка Imperial 190',
+        category: 'Одежда',
+        description: 'Классическая футболка из 100% гребенного хлопка плотностью 190 г/м².',
+        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+        colors: ['Фирменный синий', 'Белый', 'Серый']
+      },
+      {
+        id: 3,
+        code: 'ING-103',
+        title: 'Ветровка из нейлона Surf 210',
+        category: 'Одежда',
+        description: 'Влагостойкая легкая ветровка со скрытым капюшоном в воротнике.',
+        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 4,
+        code: 'ING-104',
+        title: 'Дождевик унисекс Rainman',
+        category: 'Одежда',
+        description: 'Удлиненный защитный дождевик прямого силуэта с герметичными швами.',
+        sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 5,
+        code: 'ING-105',
+        title: 'Бейсболка классическая 11K',
+        category: 'Аксессуары',
+        description: 'Плотный хлопковый твил, 6 клиньев, металлическая застежка-регулятор.',
+        sizes: ['Универсальный'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 6,
+        code: 'ING-106',
+        title: 'Панама хлопковая Ингосстрах',
+        category: 'Аксессуары',
+        description: 'Трендовая городская панама из плотного дышащего хлопка с вышивкой.',
+        sizes: ['Универсальный'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 7,
+        code: 'ING-201',
+        title: 'Бутылка для воды «Фитнес» Soft Touch',
+        category: 'Посуда и термосы',
+        description: 'Объем 700 мл, шелковистое покрытие софт-тач, петля с карабином.',
+        sizes: ['700 мл'],
+        colors: ['Фирменный синий', 'Белый']
+      },
+      {
+        id: 8,
+        code: 'ING-202',
+        title: 'Термос с LED-индикатором температуры',
+        category: 'Посуда и термосы',
+        description: 'Объем 500 мл, сенсорная панель на крышке показывает точные градусы напитка.',
+        sizes: ['500 мл'],
+        colors: ['Белый', 'Черный']
+      },
+      {
+        id: 9,
+        code: 'ING-203',
+        title: 'Термокружка Embrace со стальной колбой',
+        category: 'Посуда и термосы',
+        description: 'Вместительная автокружка 900 мл с эргономичной ручкой и трубочкой.',
+        sizes: ['900 мл'],
+        colors: ['Белый']
+      },
+      {
+        id: 10,
+        code: 'ING-204',
+        title: 'Кружка с пробковым дном и крышкой',
+        category: 'Посуда и термосы',
+        description: 'Керамика 350 мл, натуральная пробковая подставка защищает стол от нагрева.',
+        sizes: ['350 мл'],
+        colors: ['Белый с сердцем', 'Белый с логотипом']
+      },
+      {
+        id: 11,
+        code: 'ING-301',
+        title: 'Беспроводная зарядная станция 3-в-1',
+        category: 'Офис и гаджеты',
+        description: 'Функция бережного подогрева кружки и одновременная быстрая Qi-зарядка.',
+        sizes: ['Стандарт'],
+        colors: ['Белый']
+      },
+      {
+        id: 12,
+        code: 'ING-401',
+        title: 'Чемодан «Уверенность в поездке»',
+        category: 'Путешествия и авто',
+        description: 'Размер для ручной клади 49х35х24 см, бесшумные колеса 360°, замок TSA.',
+        sizes: ['Кабинный (S)'],
+        colors: ['Белый']
+      }
+    ];
+
+    const CATEGORIES = ['Все', 'Одежда', 'Посуда и термосы', 'Офис и гаджеты', 'Путешествия и авто', 'Аксессуары'];
+
+    // Векторная иконка для карточек
+    const BOX_SVG = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>';
+
+    // Переменные состояния
+    let currentCategory = 'Все';
+    let currentModalProduct = null;
+    let selectedSize = '';
+    let selectedColor = '';
+    let cart = [];
+
+    // Инициализация при загрузке страницы
+    window.addEventListener('DOMContentLoaded', () => {
+      // Загрузка сохраненной корзины
+      try {
+        const saved = localStorage.getItem('ingoshop_cart_local');
+        if (saved) cart = JSON.parse(saved);
+      } catch (e) {
+        cart = [];
+      }
+
+      renderCategories();
+      renderProducts();
+      renderBurgerMenu();
+      updateCartUI();
+    });
+
+    // 2. Отрисовка категорий
+    function renderCategories() {
+      const bar = document.getElementById('categoriesBar');
+      bar.innerHTML = CATEGORIES.map(cat => `
+        <button class="cat-btn ${cat === currentCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    // 3. Фильтрация
+    function filterCategory(cat) {
+      currentCategory = cat;
+      renderCategories();
+      renderProducts();
+      closeAllDrawers();
+    }
+
+    // 4. Отрисовка товаров
+    function renderProducts() {
+      const grid = document.getElementById('productsGrid');
+      const items = currentCategory === 'Все' 
+        ? PRODUCTS 
+        : PRODUCTS.filter(p => p.category === currentCategory);
+
+      if (items.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">Товары не найдены</p>';
+        return;
+      }
+
+      grid.innerHTML = items.map(p => `
+        <div class="product-card">
+          <div class="product-preview" onclick="openProductModal(${p.id})">
+            <span class="product-category-tag">${p.category}</span>
+            ${BOX_SVG}
+          </div>
+          <div class="product-info">
+            <div>
+              <h3 class="product-title" onclick="openProductModal(${p.id})">${p.title}</h3>
+              <p class="product-desc">${p.description}</p>
+            </div>
+            <div class="product-footer">
+              <span class="product-code">${p.code}</span>
+              <button class="btn-select" onclick="openProductModal(${p.id})">Выбрать →</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 5. Отрисовка бургер-меню
+    function renderBurgerMenu() {
+      const list = document.getElementById('burgerNavList');
+      list.innerHTML = CATEGORIES.map(cat => `
+        <button class="cat-btn" style="text-align: left; width: 100%; border-radius: 8px; margin-bottom: 4px;" onclick="filterCategory('${cat}')">
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    // 6. Модальное окно товара
+    function openProductModal(id) {
+      currentModalProduct = PRODUCTS.find(p => p.id === id);
+      if (!currentModalProduct) return;
+
+      document.getElementById('modalProductCode').innerText = currentModalProduct.code + ' • ' + currentModalProduct.category;
+      document.getElementById('modalProductTitle').innerText = currentModalProduct.title;
+      document.getElementById('modalProductDesc').innerText = currentModalProduct.description;
+      document.getElementById('modalQtyInput').value = 1;
+
+      // Размеры
+      const sizeGroup = document.getElementById('sizeSelectorGroup');
+      const sizesList = document.getElementById('modalSizesList');
+      if (currentModalProduct.sizes && currentModalProduct.sizes.length > 0) {
+        sizeGroup.style.display = 'block';
+        selectedSize = currentModalProduct.sizes[0];
+        sizesList.innerHTML = currentModalProduct.sizes.map(s => `
+          <button type="button" class="pill-btn ${s === selectedSize ? 'selected' : ''}" onclick="pickSize('${s}', this)">${s}</button>
+        `).join('');
+      } else {
+        sizeGroup.style.display = 'none';
+        selectedSize = '';
+      }
+
+      // Цвета
+      const colorGroup = document.getElementById('colorSelectorGroup');
+      const colorsList = document.getElementById('modalColorsList');
+      if (currentModalProduct.colors && currentModalProduct.colors.length > 0) {
+        colorGroup.style.display = 'block';
+        selectedColor = currentModalProduct.colors[0];
+        colorsList.innerHTML = currentModalProduct.colors.map(c => `
+          <button type="button" class="pill-btn ${c === selectedColor ? 'selected' : ''}" onclick="pickColor('${c}', this)">${c}</button>
+        `).join('');
+      } else {
+        colorGroup.style.display = 'none';
+        selectedColor = '';
+      }
+
+      document.getElementById('productModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('productModal').classList.remove('active');
+      currentModalProduct = null;
+    }
+
+    function pickSize(size, btn) {
+      selectedSize = size;
+      btn.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+
+    function pickColor(color, btn) {
+      selectedColor = color;
+      btn.parentElement.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+
+    function adjustQty(delta) {
+      const input = document.getElementById('modalQtyInput');
+      let val = parseInt(input.value) || 1;
+      val = Math.max(1, val + delta);
+      input.value = val;
+    }
+
+    // 7. Добавление в корзину
+    function confirmAddToCart() {
+      if (!currentModalProduct) return;
+      const qty = parseInt(document.getElementById('modalQtyInput').value) || 1;
+
+      const existingIndex = cart.findIndex(item => 
+        item.id === currentModalProduct.id && 
+        item.size === selectedSize && 
+        item.color === selectedColor
+      );
+
+      if (existingIndex > -1) {
+        cart[existingIndex].qty += qty;
+      } else {
+        cart.push({
+          id: currentModalProduct.id,
+          title: currentModalProduct.title,
+          size: selectedSize,
+          color: selectedColor,
+          qty: qty
+        });
+      }
+
+      saveCart();
+      closeModal();
+      openDrawer('cartDrawer');
+    }
+
+    // 8. Управление боковыми панелями
+    function openDrawer(drawerId) {
+      document.getElementById(drawerId).classList.add('open');
+      document.getElementById('backdropOverlay').classList.add('active');
+    }
+
+    function closeDrawer(drawerId) {
+      document.getElementById(drawerId).classList.remove('open');
+      document.getElementById('backdropOverlay').classList.remove('active');
+    }
+
+    function closeAllDrawers() {
+      document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
+      document.getElementById('backdropOverlay').classList.remove('active');
+      closeModal();
+    }
+
+    // 9. Отрисовка корзины
+    function updateCartUI() {
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const badge = document.getElementById('cartCountBadge');
+      if (count > 0) {
+        badge.innerText = count;
+        badge.style.display = 'flex';
+      } else {
+        badge.style.display = 'none';
+      }
+
+      const list = document.getElementById('cartItemsList');
+      const footer = document.getElementById('cartFooter');
+
+      if (cart.length === 0) {
+        list.innerHTML = '<p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-top: 40px;">Корзина пока пуста</p>';
+        footer.style.display = 'none';
+        return;
+      }
+
+      footer.style.display = 'block';
+      list.innerHTML = cart.map((item, index) => `
+        <div class="cart-item">
+          <div>
+            <div class="cart-item-title">${item.title}</div>
+            <div class="cart-item-meta">
+              ${item.size ? 'Размер: ' + item.size + ' | ' : ''}
+              ${item.color ? 'Цвет: ' + item.color + ' | ' : ''}
+              Тираж: <b>${item.qty} шт.</b>
+            </div>
+          </div>
+          <button class="btn-icon" style="color: #EF4444;" onclick="removeCartItem(${index})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      saveCart();
+    }
+
+    function saveCart() {
+      localStorage.setItem('ingoshop_cart_local', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    // 10. Оформление заказа
+    function submitOrder(e) {
+      e.preventDefault();
+      const orderNumber = 'ING-2026-' + Math.floor(1000 + Math.random() * 9000);
+      const fio = document.getElementById('orderFio').value;
+
+      alert(`Спасибо, ${fio}!\nВаша заявка №${orderNumber} успешно принята в обработку.`);
+
+      cart = [];
+      saveCart();
+      closeAllDrawers();
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>

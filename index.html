@@ -79,6 +79,7 @@
       border-color: #CBD5E1;
     }
 
+    /* Кликабельный контейнер логотипа */
     .brand-logo {
       display: flex;
       align-items: center;
@@ -89,6 +90,15 @@
 
     .brand-logo:hover {
       opacity: 0.85;
+    }
+
+    /* Изображение логотипа ИНГОШОП */
+    .brand-img {
+      height: 32px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+      display: block;
     }
 
     .btn-icon {
@@ -510,18 +520,16 @@
   <header>
     <div class="header-inner">
       <div class="header-left">
+        <!-- Кнопка бургер-меню -->
         <button class="btn-burger" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню категорий">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
+        <!-- Кликабельный логотип ИНГОШОП (возвращает ко всем категориям) -->
         <div class="brand-logo" onclick="filterCategory('Все')" title="На главную / Все товары">
-          <svg width="190" height="36" viewBox="0 0 190 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="36" height="36" rx="8" fill="#002F6C"/>
-            <path d="M12 25V11H15.5L20.5 19V11H24V25H20.5L15.5 17V25H12Z" fill="white"/>
-            <text x="46" y="24" fill="#002F6C" font-size="15" font-weight="700" letter-spacing="1.5" font-family="'Inter', sans-serif">ИНГОССТРАХ</text>
-          </svg>
+          <img src="logo.png" alt="ИНГОШОП" class="brand-img">
         </div>
       </div>
 

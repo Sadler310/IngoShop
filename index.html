@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ИнгоШоп — Каталог мерча</title>
   
-  <!-- Шрифт Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -37,7 +36,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Шапка сайта */
     header {
       position: sticky;
       top: 0;
@@ -63,7 +61,6 @@
       gap: 16px;
     }
 
-    /* Кнопка бургера — теперь полностью независима */
     .btn-burger {
       background: none;
       border: 1px solid var(--border-color);
@@ -82,7 +79,6 @@
       border-color: #CBD5E1;
     }
 
-    /* Кликабельный векторный логотип */
     .brand-logo {
       display: flex;
       align-items: center;
@@ -129,7 +125,6 @@
       justify-content: center;
     }
 
-    /* Основная рабочая зона */
     main {
       max-width: 1200px;
       width: 100%;
@@ -138,7 +133,6 @@
       flex-grow: 1;
     }
 
-    /* Горизонтальные чипсы категорий */
     .categories-bar {
       display: flex;
       gap: 8px;
@@ -167,7 +161,6 @@
       border-color: var(--ingos-blue);
     }
 
-    /* Карточки товаров */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -273,7 +266,6 @@
       text-decoration: underline;
     }
 
-    /* Модальное окно и оверлеи */
     .overlay {
       position: fixed;
       inset: 0;
@@ -397,7 +389,6 @@
       background: var(--ingos-dark);
     }
 
-    /* Выдвижные шторки (Drawers) */
     .drawer {
       position: fixed;
       top: 0;
@@ -516,30 +507,24 @@
 </head>
 <body>
 
-  <!-- Шапка сайта -->
   <header>
     <div class="header-inner">
       <div class="header-left">
-        <!-- Кнопка бургер-меню: кликабельна и независима -->
         <button class="btn-burger" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню категорий">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
-        <!-- Векторный логотип Ингосстрах: клик возвращает ко всем товарам -->
         <div class="brand-logo" onclick="filterCategory('Все')" title="На главную / Все товары">
           <svg width="190" height="36" viewBox="0 0 190 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Эмблема Ингосстрах: синий скошенный шестиугольник с буквой И -->
             <rect width="36" height="36" rx="8" fill="#002F6C"/>
             <path d="M12 25V11H15.5L20.5 19V11H24V25H20.5L15.5 17V25H12Z" fill="white"/>
-            <!-- Текстовая надпись ИНГОССТРАХ в официальной геометрии -->
             <text x="46" y="24" fill="#002F6C" font-size="15" font-weight="700" letter-spacing="1.5" font-family="'Inter', sans-serif">ИНГОССТРАХ</text>
           </svg>
         </div>
       </div>
 
-      <!-- Иконка корзины -->
       <div class="header-actions">
         <button class="btn-icon" onclick="openDrawer('cartDrawer')" aria-label="Открыть корзину">
           <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -551,21 +536,15 @@
     </div>
   </header>
 
-  <!-- Основной контент -->
   <main>
-    <!-- Горизонтальная панель категорий -->
     <div class="categories-bar" id="categoriesBar"></div>
-
-    <!-- Сетка карточек товаров -->
     <div class="products-grid" id="productsGrid"></div>
   </main>
 
-  <!-- Подвал сайта -->
   <footer>
     © 2026 СПАО «Ингосстрах». Каталог корпоративной сувенирной продукции.
   </footer>
 
-  <!-- Бургер-меню (выезжает слева) -->
   <div class="drawer drawer-left" id="burgerDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ingos-blue);">Категории</h3>
@@ -577,7 +556,6 @@
     </div>
   </div>
 
-  <!-- Корзина (выезжает справа) -->
   <div class="drawer drawer-right" id="cartDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600;">Корзина</h3>
@@ -598,7 +576,6 @@
     </div>
   </div>
 
-  <!-- Модальное окно выбора параметров товара -->
   <div class="overlay" id="productModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -612,7 +589,7 @@
       <p id="modalProductDesc" style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4;"></p>
 
       <div class="selector-group" id="sizeSelectorGroup">
-        <label class="selector-label">Выберите размер</label>
+        <label class="selector-label">Выберите размер / тип</label>
         <div class="pills-list" id="modalSizesList"></div>
       </div>
 
@@ -634,19 +611,17 @@
     </div>
   </div>
 
-  <!-- Затемняющий оверлей для закрытия шторок -->
   <div class="overlay" id="backdropOverlay" onclick="closeAllDrawers()"></div>
 
-  <!-- Скрипт логики магазина -->
   <script>
-    // Каталог сувенирной продукции Ингосстрах 2026
     const PRODUCTS = [
+      // ОДЕЖДА
       {
         id: 1,
         code: 'ING-101',
         title: 'Толстовка с капюшоном Urban с начесом',
         category: 'Одежда',
-        description: 'Плотный футер с мягким начесом, карман-кенгуру, лаконичный логотип Ингосстрах.',
+        description: 'Плотный футер с мягким начесом, карман-кенгуру, логотип Ингосстрах.',
         sizes: ['S', 'M', 'L', 'XL', 'XXL'],
         colors: ['Серый меланж', 'Фирменный синий']
       },
@@ -673,12 +648,32 @@
         code: 'ING-104',
         title: 'Дождевик унисекс Rainman',
         category: 'Одежда',
-        description: 'Удлиненный защитный дождевик прямого силуэта с герметичными швами.',
+        description: 'Удлиненный защитный дождевик прямого силуэта с проклеенными швами.',
         sizes: ['S', 'M', 'L', 'XL', 'XXL'],
         colors: ['Фирменный синий']
       },
       {
         id: 5,
+        code: 'ING-111',
+        title: 'Плед-пончо',
+        category: 'Одежда',
+        description: 'Уютный непродуваемый плед-пончо. Размер в развороте: 70х140 см.',
+        sizes: ['70х140 см'],
+        colors: ['Фирменный синий / Бежевый']
+      },
+      {
+        id: 6,
+        code: 'ING-117',
+        title: 'Дождевик в футляре',
+        category: 'Одежда',
+        description: 'Компактный дождевик в пластиковом шаре-футляре с карабином для крепления к рюкзаку.',
+        sizes: ['Универсальный'],
+        colors: ['Синий футляр']
+      },
+
+      // АКСЕССУАРЫ
+      {
+        id: 7,
         code: 'ING-105',
         title: 'Бейсболка классическая 11K',
         category: 'Аксессуары',
@@ -687,67 +682,523 @@
         colors: ['Фирменный синий']
       },
       {
-        id: 6,
+        id: 8,
         code: 'ING-106',
         title: 'Панама хлопковая Ингосстрах',
         category: 'Аксессуары',
-        description: 'Трендовая городская панама из плотного дышащего хлопка с вышивкой.',
+        description: 'Трендовая городская панама из плотного хлопка с аккуратной вышивкой.',
         sizes: ['Универсальный'],
         colors: ['Фирменный синий']
       },
       {
-        id: 7,
+        id: 9,
+        code: 'ING-107',
+        title: 'Зонт складной Unit Fiber',
+        category: 'Аксессуары',
+        description: 'Компактный складной ветроустойчивый зонт со спицами из фибергласса.',
+        sizes: ['Складной'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 10,
+        code: 'ING-108',
+        title: 'Зонт-трость',
+        category: 'Аксессуары',
+        description: 'Классический полуавтоматический зонт-трость с эргономичной загнутой ручкой.',
+        sizes: ['Трость'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 11,
+        code: 'ING-109',
+        title: 'Сумка-шопер с карабином',
+        category: 'Аксессуары',
+        description: 'Вместительный хлопковый шопер с контрастными синими стропами и внутренним карабином.',
+        sizes: ['Стандарт'],
+        colors: ['Бежевый / Синий']
+      },
+      {
+        id: 12,
+        code: 'ING-110',
+        title: 'Спортивное полотенце',
+        category: 'Аксессуары',
+        description: 'Микрофибра 50х80 см, моментально впитывает влагу и быстро сохнет, в рулоне с манжетой.',
+        sizes: ['50х80 см'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 13,
+        code: 'ING-112',
+        title: 'Антисептик для рук',
+        category: 'Аксессуары',
+        description: 'Карманный спрей-антисептик с ароматом грейпфрута. «Застрахован от микробов».',
+        sizes: ['20 мл'],
+        colors: ['Матовый белый']
+      },
+      {
+        id: 14,
+        code: 'ING-113',
+        title: 'Плед фактура «Армани»',
+        category: 'Аксессуары',
+        description: 'Премиальный вязаный синий плед фактурной вязки в фирменной подарочной коробке.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 15,
+        code: 'ING-114',
+        title: 'Плед для пикника',
+        category: 'Аксессуары',
+        description: 'Влагонепроницаемый складной плед. В развороте: 117х142 см, в сложении: 41х30х5 см с ручкой.',
+        sizes: ['117х142 см'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 16,
+        code: 'ING-115',
+        title: 'Складные очки',
+        category: 'Аксессуары',
+        description: 'Солнцезащитные складные очки с зеркальными синими линзами и белой оправой в чехле.',
+        sizes: ['Стандарт'],
+        colors: ['Белый / Синий']
+      },
+      {
+        id: 17,
+        code: 'ING-116',
+        title: 'Антистресс «Звезда»',
+        category: 'Аксессуары',
+        description: 'Тактильная мягкая игрушка-антистресс из полиуретана с белым логотипом Ингосстрах.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 18,
+        code: 'ING-118',
+        title: 'Брелок «Домики» металлический',
+        category: 'Аксессуары',
+        description: 'Надежный металлический брелок с двумя подвесками-домиками и гравировкой.',
+        sizes: ['Стандарт'],
+        colors: ['Хром / Серебро']
+      },
+      {
+        id: 19,
+        code: 'ING-119',
+        title: 'Брелоки ПВХ',
+        category: 'Аксессуары',
+        description: 'Яркие рельефные брелоки из ПВХ с кольцом на цепочке.',
+        sizes: ['1 макет'],
+        colors: ['Сердце «И»', 'Домик', 'Автомобиль', 'Шезлонг']
+      },
+      {
+        id: 20,
+        code: 'ING-120',
+        title: 'Мультитул',
+        category: 'Аксессуары',
+        description: 'Многофункциональный металлический инструмент: плоскогубцы, нож, открывалка, фонарик.',
+        sizes: ['Компактный'],
+        colors: ['Металлик']
+      },
+      {
+        id: 21,
+        code: 'ING-121',
+        title: 'Картхолдер стандартный',
+        category: 'Аксессуары',
+        description: 'Классический синий чехол для пластиковых карт с несколькими отделениями и тиснением.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 22,
+        code: 'ING-122',
+        title: 'Картхолдер с выдвижным механизмом',
+        category: 'Аксессуары',
+        description: 'Футляр для банковских карт с удобным выдвижным ремешком-лентой.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 23,
+        code: 'ING-123',
+        title: 'Игра «Деревянная башня»',
+        category: 'Аксессуары',
+        description: 'Классическая настольная дженга из натурального шлифованного дерева.',
+        sizes: ['Стандарт'],
+        colors: ['Синий', 'Бежевый']
+      },
+      {
+        id: 24,
+        code: 'ING-124',
+        title: 'Набор игр «Joy» 4в1',
+        category: 'Аксессуары',
+        description: 'Деревянный пенал с классическими играми: шахматы, шашки, домино и микадо (16х3х16,1 см).',
+        sizes: ['16х3х16.1 см'],
+        colors: ['Натуральное дерево']
+      },
+
+      // ПОСУДА И ТЕРМОСЫ
+      {
+        id: 25,
         code: 'ING-201',
         title: 'Бутылка для воды «Фитнес» Soft Touch',
         category: 'Посуда и термосы',
-        description: 'Объем 700 мл, шелковистое покрытие софт-тач, петля с карабином.',
+        description: 'Объем 700 мл, шелковистое софт-тач покрытие, подвесная петля с карабином.',
         sizes: ['700 мл'],
         colors: ['Фирменный синий', 'Белый']
       },
       {
-        id: 8,
+        id: 26,
         code: 'ING-202',
         title: 'Термос с LED-индикатором температуры',
         category: 'Посуда и термосы',
-        description: 'Объем 500 мл, сенсорная панель на крышке показывает точные градусы напитка.',
+        description: 'Объем 500 мл, сенсорная крышка с точным отображением температуры напитка.',
         sizes: ['500 мл'],
         colors: ['Белый', 'Черный']
       },
       {
-        id: 9,
+        id: 27,
+        code: 'ING-205',
+        title: 'Бутылка стеклянная Alfe',
+        category: 'Посуда и термосы',
+        description: 'Экологичная бутылка 500 мл из прочного стекла с герметичной крышкой и шнурком.',
+        sizes: ['500 мл'],
+        colors: ['Синий', 'Прозрачный']
+      },
+      {
+        id: 28,
+        code: 'ING-206',
+        title: 'Бутылка для воды Flip Soft Touch',
+        category: 'Посуда и термосы',
+        description: 'Объем 700 мл, надежная система фиксации клапана от случайного проливания.',
+        sizes: ['700 мл'],
+        colors: ['Белый']
+      },
+      {
+        id: 29,
         code: 'ING-203',
         title: 'Термокружка Embrace со стальной колбой',
         category: 'Посуда и термосы',
-        description: 'Вместительная автокружка 900 мл с эргономичной ручкой и трубочкой.',
+        description: 'Вместительная термокружка 900 мл с эргономичной ручкой и трубочкой.',
         sizes: ['900 мл'],
         colors: ['Белый']
       },
       {
-        id: 10,
+        id: 30,
         code: 'ING-204',
         title: 'Кружка с пробковым дном и крышкой',
         category: 'Посуда и термосы',
-        description: 'Керамика 350 мл, натуральная пробковая подставка защищает стол от нагрева.',
+        description: 'Керамика 350 мл, натуральная пробка предотвращает появление следов на столе.',
         sizes: ['350 мл'],
-        colors: ['Белый с сердцем', 'Белый с логотипом']
+        colors: ['Белый с сердцем', 'Белый с надписью']
       },
       {
-        id: 11,
+        id: 31,
+        code: 'ING-207',
+        title: 'Термокружка Surprise To Go',
+        category: 'Посуда и термосы',
+        description: 'Объем 480 мл, компактная крышка с интегрированным датчиком температуры.',
+        sizes: ['480 мл'],
+        colors: ['Белый']
+      },
+      {
+        id: 32,
+        code: 'ING-208',
+        title: 'Термокружка «Sense»',
+        category: 'Посуда и термосы',
+        description: 'Стальная вакуумная термокружка 350 мл с прозрачной крышкой с отверстием для питья.',
+        sizes: ['350 мл'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 33,
+        code: 'ING-209',
+        title: 'Ланчбокс с приборами',
+        category: 'Посуда и термосы',
+        description: 'Двухуровневый герметичный ланчбокс с ручкой и комплектом столовых приборов.',
+        sizes: ['Стандарт'],
+        colors: ['Синий / Бежевый']
+      },
+      {
+        id: 34,
+        code: 'ING-210',
+        title: 'Подставки под кружку на пробковой основе',
+        category: 'Посуда и термосы',
+        description: 'Набор из 4 квадратных костеров на нескользящей натуральной пробковой основе.',
+        sizes: ['Набор 4 шт.'],
+        colors: ['Фирменный синий']
+      },
+
+      // ОФИС И ГАДЖЕТЫ
+      {
+        id: 35,
         code: 'ING-301',
-        title: 'Беспроводная зарядная станция 3-в-1',
+        title: 'Беспроводное ЗУ с подогревом кружки',
         category: 'Офис и гаджеты',
-        description: 'Функция бережного подогрева кружки и одновременная быстрая Qi-зарядка.',
+        description: 'Платформа 2-в-1: функция бережного подогрева кружки и быстрая зарядка смартфона.',
         sizes: ['Стандарт'],
         colors: ['Белый']
       },
       {
-        id: 12,
+        id: 36,
+        code: 'ING-302',
+        title: 'Рюкзак Onefold',
+        category: 'Офис и гаджеты',
+        description: 'Объем 17 л, 2 защищенных отделения для ноутбука и рабочих документов.',
+        sizes: ['17 л'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 37,
+        code: 'ING-303',
+        title: 'Чехол для ноутбука 16 дюймов',
+        category: 'Офис и гаджеты',
+        description: 'Мягкий защитный неопреновый чехол для ноутбуков до 16" с дополнительным карманом.',
+        sizes: ['16 дюймов'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 38,
+        code: 'ING-304',
+        title: 'Кабель-ланьярд для зарядки',
+        category: 'Офис и гаджеты',
+        description: 'Шнурок для бейджа со встроенными переходниками Type-C / Lightning / USB.',
+        sizes: ['Стандарт'],
+        colors: ['Синий', 'Белый']
+      },
+      {
+        id: 39,
+        code: 'ING-305',
+        title: 'Попсокет для телефона',
+        category: 'Офис и гаджеты',
+        description: 'Складной круглый держатель-подставка с круговой надписью «ИНГОССТРАХ».',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 40,
+        code: 'ING-306',
+        title: 'Внешний аккумулятор Luce 10 000 mAh',
+        category: 'Офис и гаджеты',
+        description: 'Powerbank с эффектным светящимся логотипом и быстрой зарядкой.',
+        sizes: ['10 000 mAh'],
+        colors: ['Белый']
+      },
+      {
+        id: 41,
+        code: 'ING-307',
+        title: 'Беспроводная колонка Easy',
+        category: 'Офис и гаджеты',
+        description: 'Компактная Bluetooth-колонка в металлическом круглом корпусе с чистым звуком.',
+        sizes: ['Стандарт'],
+        colors: ['Серебро', 'Синий']
+      },
+      {
+        id: 42,
+        code: 'ING-308',
+        title: 'Настольная лампа со станцией зарядки',
+        category: 'Офис и гаджеты',
+        description: 'Светодиодная лампа с беспроводной док-станцией для смартфона, часов и наушников.',
+        sizes: ['Стандарт'],
+        colors: ['Белый']
+      },
+      {
+        id: 43,
+        code: 'ING-309',
+        title: 'Мышь Wireless Xiaomi',
+        category: 'Офис и гаджеты',
+        description: 'Бесшумная оптическая беспроводная мышь с плавным ходом и минималистичным дизайном.',
+        sizes: ['Стандарт'],
+        colors: ['Белый']
+      },
+      {
+        id: 44,
+        code: 'ING-310',
+        title: 'Беспроводная клавиатура A4Tech',
+        category: 'Офис и гаджеты',
+        description: 'Тонкая беспроводная клавиатура со специальным пазом-подставкой под планшет или телефон.',
+        sizes: ['Стандарт'],
+        colors: ['Белый']
+      },
+      {
+        id: 45,
+        code: 'ING-311',
+        title: 'Коврик для мыши с подушечкой',
+        category: 'Офис и гаджеты',
+        description: 'Эргономичный синий коврик с гелевой анатомической подушечкой под запястье.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 46,
+        code: 'ING-312',
+        title: 'Коврик для мыши тонкий',
+        category: 'Офис и гаджеты',
+        description: 'Классический прямоугольный синий коврик с нескользящей прорезиненной основой.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 47,
+        code: 'ING-313',
+        title: 'Органайзер для документов А4',
+        category: 'Офис и гаджеты',
+        description: 'Вместительная папка-органайзер для семейных документов формата А4 из экокожи.',
+        sizes: ['Формат А4'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 48,
+        code: 'ING-314',
+        title: 'Эко-блокнот А6',
+        category: 'Офис и гаджеты',
+        description: 'Обложка из живой бумаги с семенами полевых цветов. Карандаш в комплекте.',
+        sizes: ['Формат А6'],
+        colors: ['Крафт / Эко']
+      },
+      {
+        id: 49,
+        code: 'ING-315',
+        title: 'Набор для выращивания «Экокуб»',
+        category: 'Офис и гаджеты',
+        description: 'Куб из натурального дерева с семенами голубой ели и питательным грунтом.',
+        sizes: ['Стандарт'],
+        colors: ['Натуральное дерево']
+      },
+
+      // ПУТЕШЕСТВИЯ И АВТО
+      {
+        id: 50,
         code: 'ING-401',
         title: 'Чемодан «Уверенность в поездке»',
         category: 'Путешествия и авто',
         description: 'Размер для ручной клади 49х35х24 см, бесшумные колеса 360°, замок TSA.',
         sizes: ['Кабинный (S)'],
         colors: ['Белый']
+      },
+      {
+        id: 51,
+        code: 'ING-402',
+        title: 'Водонепроницаемый мешок',
+        category: 'Путешествия и авто',
+        description: 'Размер 29х11,5 см, герметичный замок-скрутка и прозрачное окно для дисплея телефона.',
+        sizes: ['29х11.5 см'],
+        colors: ['Синий', 'Белый']
+      },
+      {
+        id: 52,
+        code: 'ING-403',
+        title: 'Органайзер для путешественника',
+        category: 'Путешествия и авто',
+        description: 'Семейное портмоне из экокожи с отделениями для паспортов, посадочных талонов и карт.',
+        sizes: ['Семейный'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 53,
+        code: 'ING-404',
+        title: 'Багажная бирка',
+        category: 'Путешествия и авто',
+        description: 'Силиконовая яркая адресная бирка для чемодана с символикой самолета.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 54,
+        code: 'ING-405',
+        title: 'Складной саквояж в автомобиль',
+        category: 'Путешествия и авто',
+        description: 'Вместительный багажный органайзер из премиальной синей экокожи с ручками.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 55,
+        code: 'ING-406',
+        title: 'Парковочная табличка',
+        category: 'Путешествия и авто',
+        description: 'Автовизитка на торпедо с комплектом магнитных сменных цифр для номера телефона.',
+        sizes: ['Стандарт'],
+        colors: ['Белый']
+      },
+      {
+        id: 56,
+        code: 'ING-407',
+        title: 'Холдер для автодокументов',
+        category: 'Путешествия и авто',
+        description: 'Компактная обложка для прав, СТС и страховки с фирменным тиснением.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 57,
+        code: 'ING-408',
+        title: 'Органайзер на спинку сиденья',
+        category: 'Путешествия и авто',
+        description: 'Подвесной органайзер с множеством карманов для порядка на заднем ряду автомобиля.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 58,
+        code: 'ING-409',
+        title: 'Магнитный держатель в авто',
+        category: 'Путешествия и авто',
+        description: 'Круглый компактный магнитный держатель в дефлектор воздуховода.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 59,
+        code: 'ING-411',
+        title: 'Обложка для паспорта',
+        category: 'Путешествия и авто',
+        description: 'Классическая синяя обложка для паспорта из мягкой экокожи с вертикальным тиснением.',
+        sizes: ['Стандарт'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 60,
+        code: 'ING-412',
+        title: 'Корзинка-холодильник для пикника',
+        category: 'Путешествия и авто',
+        description: 'Термокорзина 47х25х28 см на складном алюминиевом каркасе с удобными ручками.',
+        sizes: ['47х25х28 см'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 61,
+        code: 'ING-413',
+        title: 'Сумка-холодильник',
+        category: 'Путешествия и авто',
+        description: 'Компактная изотермическая сумка 22х13х24 см с плечевым ремнем и карманами-сетками.',
+        sizes: ['22х13х24 см'],
+        colors: ['Серый / Синий']
+      },
+      {
+        id: 62,
+        code: 'ING-414',
+        title: 'Чехол на чемодан',
+        category: 'Путешествия и авто',
+        description: 'Эластичный износостойкий защитный чехол с фирменным дорожным принтом «Ингосстрах».',
+        sizes: ['S (малый)', 'M (средний)', 'L (большой)'],
+        colors: ['Фирменный синий']
+      },
+      {
+        id: 63,
+        code: 'ING-415',
+        title: 'Несессер для путешествий',
+        category: 'Путешествия и авто',
+        description: 'Подвесная дорожная косметичка с множеством сетчатых карманов и крючком.',
+        sizes: ['Стандарт'],
+        colors: ['Темно-серый']
+      },
+      {
+        id: 64,
+        code: 'ING-416',
+        title: 'Набор для путешествий',
+        category: 'Путешествия и авто',
+        description: 'Дорожный набор комфорта в тканевом мешочке: подушка под шею, маска для сна и чехол.',
+        sizes: ['3-в-1'],
+        colors: ['Серый']
       }
     ];
 
@@ -760,7 +1211,6 @@
     let selectedColor = '';
     let cart = [];
 
-    // Старт приложения
     window.addEventListener('DOMContentLoaded', () => {
       try {
         const saved = localStorage.getItem('ingoshop_cart_local');
@@ -775,7 +1225,6 @@
       updateCartUI();
     });
 
-    // Отрисовка верхних кнопок категорий
     function renderCategories() {
       const bar = document.getElementById('categoriesBar');
       bar.innerHTML = CATEGORIES.map(cat => `
@@ -785,7 +1234,6 @@
       `).join('');
     }
 
-    // Выбор категории
     function filterCategory(cat) {
       currentCategory = cat;
       renderCategories();
@@ -794,7 +1242,6 @@
       closeAllDrawers();
     }
 
-    // Отрисовка сетки товаров
     function renderProducts() {
       const grid = document.getElementById('productsGrid');
       const items = currentCategory === 'Все' 
@@ -826,7 +1273,6 @@
       `).join('');
     }
 
-    // Отрисовка категорий в бургер-меню
     function renderBurgerMenu() {
       const list = document.getElementById('burgerNavList');
       list.innerHTML = CATEGORIES.map(cat => `
@@ -836,7 +1282,6 @@
       `).join('');
     }
 
-    // Модальное окно товара
     function openProductModal(id) {
       currentModalProduct = PRODUCTS.find(p => p.id === id);
       if (!currentModalProduct) return;
@@ -846,7 +1291,6 @@
       document.getElementById('modalProductDesc').innerText = currentModalProduct.description;
       document.getElementById('modalQtyInput').value = 1;
 
-      // Размеры
       const sizeGroup = document.getElementById('sizeSelectorGroup');
       const sizesList = document.getElementById('modalSizesList');
       if (currentModalProduct.sizes && currentModalProduct.sizes.length > 0) {
@@ -860,7 +1304,6 @@
         selectedSize = '';
       }
 
-      // Цвета
       const colorGroup = document.getElementById('colorSelectorGroup');
       const colorsList = document.getElementById('modalColorsList');
       if (currentModalProduct.colors && currentModalProduct.colors.length > 0) {
@@ -901,7 +1344,6 @@
       input.value = val;
     }
 
-    // Корзина
     function confirmAddToCart() {
       if (!currentModalProduct) return;
       const qty = parseInt(document.getElementById('modalQtyInput').value) || 1;
@@ -970,7 +1412,7 @@
           <div>
             <div class="cart-item-title">${item.title}</div>
             <div class="cart-item-meta">
-              ${item.size ? 'Размер: ' + item.size + ' | ' : ''}
+              ${item.size ? 'Тип/Размер: ' + item.size + ' | ' : ''}
               ${item.color ? 'Цвет: ' + item.color + ' | ' : ''}
               Тираж: <b>${item.qty} шт.</b>
             </div>
@@ -990,7 +1432,6 @@
       updateCartUI();
     }
 
-    // Оформление заказа (только Фамилия, Имя, Отчество, Email)
     function submitOrder(e) {
       e.preventDefault();
       const lastName = document.getElementById('orderLastName').value.trim();

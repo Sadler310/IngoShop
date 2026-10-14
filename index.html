@@ -5,12 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ИнгоШоп — Каталог мерча</title>
   
+  <!-- Резервный шрифт Google Fonts (на случай отсутствия локальных файлов) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
+    /* ============================================================
+       1. ПОДКЛЮЧЕНИЕ ФИРМЕННЫХ ШРИФТОВ ИНГОССТРАХА (IngoStem)
+       ============================================================ */
+    @font-face {
+      font-family: 'IngoStem';
+      src: url('fonts/IngoStem-Regular.woff2') format('woff2'),
+           url('fonts/IngoStem-Regular.woff') format('woff'),
+           url('fonts/IngoStem-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'IngoStem';
+      src: url('fonts/IngoStem-Medium.woff2') format('woff2'),
+           url('fonts/IngoStem-Medium.woff') format('woff'),
+           url('fonts/IngoStem-Medium.ttf') format('truetype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'IngoStem';
+      src: url('fonts/IngoStem-Bold.woff2') format('woff2'),
+           url('fonts/IngoStem-Bold.woff') format('woff'),
+           url('fonts/IngoStem-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ============================================================
+       2. ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ
+       ============================================================ */
     :root {
+      --font-main: 'IngoStem', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --ingos-blue: #002F6C;
       --ingos-dark: #001D44;
       --ingos-light: #F0F4FA;
@@ -24,7 +62,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--font-main);
     }
 
     body {
@@ -79,12 +117,13 @@
       border-color: #CBD5E1;
     }
 
-    /* Кликабельный контейнер логотипа */
+    /* Текстовый логотип ИнгоШоп */
     .brand-logo {
       display: flex;
       align-items: center;
       cursor: pointer;
       text-decoration: none;
+      user-select: none;
       transition: opacity 0.15s;
     }
 
@@ -92,14 +131,13 @@
       opacity: 0.85;
     }
 
-    /* Логотип: увеличен и без белого фона */
-    .brand-img {
-      height: 44px;
-      width: auto;
-      max-width: 240px;
-      object-fit: contain;
-      display: block;
-      mix-blend-mode: multiply;
+    .brand-text {
+      font-family: var(--font-main);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ingos-blue);
+      line-height: 1;
     }
 
     .btn-icon {
@@ -521,19 +559,20 @@
   <header>
     <div class="header-inner">
       <div class="header-left">
-        <!-- Бургер-кнопка меню -->
+        <!-- Кнопка бургер-меню -->
         <button class="btn-burger" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню категорий">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
-        <!-- Кликабельный логотип ИНГОШОП без фона -->
+        <!-- Кликабельное текстовое название ИнгоШоп -->
         <div class="brand-logo" onclick="filterCategory('Все')" title="На главную / Все товары">
-          <img src="logo.png" alt="ИНГОШОП" class="brand-img">
+          <span class="brand-text">ИнгоШоп</span>
         </div>
       </div>
 
+      <!-- Иконка корзины -->
       <div class="header-actions">
         <button class="btn-icon" onclick="openDrawer('cartDrawer')" aria-label="Открыть корзину">
           <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -554,6 +593,7 @@
     © 2026 СПАО «Ингосстрах». Каталог корпоративной сувенирной продукции.
   </footer>
 
+  <!-- Бургер-меню -->
   <div class="drawer drawer-left" id="burgerDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ingos-blue);">Категории</h3>
@@ -565,6 +605,7 @@
     </div>
   </div>
 
+  <!-- Корзина -->
   <div class="drawer drawer-right" id="cartDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600;">Корзина</h3>
@@ -585,6 +626,7 @@
     </div>
   </div>
 
+  <!-- Модальное окно товара -->
   <div class="overlay" id="productModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -622,6 +664,7 @@
 
   <div class="overlay" id="backdropOverlay" onclick="closeAllDrawers()"></div>
 
+  <!-- Скрипт каталога и логики корзины -->
   <script>
     const PRODUCTS = [
       // ОДЕЖДА

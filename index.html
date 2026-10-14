@@ -132,7 +132,6 @@
       opacity: 0.85;
     }
 
-    /* Название в небесно-голубом цвете */
     .brand-text {
       font-family: var(--font-main);
       font-size: 25px;
@@ -184,6 +183,9 @@
       flex-grow: 1;
     }
 
+    /* ============================================================
+       3. ФИЛЬТРЫ КАТЕГОРИЙ (НЕБЕСНО-ГОЛУБОЙ АКТИВНЫЙ ЦВЕТ)
+       ============================================================ */
     .categories-bar {
       display: flex;
       gap: 8px;
@@ -203,13 +205,20 @@
       border: 1px solid var(--border-color);
       background: #fff;
       color: var(--text-muted);
-      transition: all 0.15s;
+      transition: all 0.2s ease;
     }
 
+    .cat-btn:hover {
+      border-color: var(--ingos-sky);
+      color: var(--ingos-sky);
+    }
+
+    /* Активная кнопка категории теперь небесно-голубая */
     .cat-btn.active {
-      background: var(--ingos-blue);
+      background: var(--ingos-sky);
       color: #fff;
-      border-color: var(--ingos-blue);
+      border-color: var(--ingos-sky);
+      box-shadow: 0 2px 8px rgba(0, 119, 255, 0.25);
     }
 
     .products-grid {
@@ -304,18 +313,31 @@
       font-family: monospace;
     }
 
-    .btn-select {
-      background: none;
-      border: none;
-      color: var(--ingos-blue);
+    /* ============================================================
+       4. КНОПКА «ПРЕДЗАКАЗАТЬ» С НЕБЕСНОЙ РАМКОЙ И СИНИМ ХОВЕРОМ
+       ============================================================ */
+    .btn-preorder {
+      background: transparent;
+      border: 1.5px solid var(--ingos-sky);
+      color: var(--ingos-sky);
       font-size: 12px;
       font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .btn-select:hover {
-      color: var(--ingos-sky);
-      text-decoration: underline;
+    /* При наведении заливаем глубоким синим цветом */
+    .btn-preorder:hover {
+      background: var(--ingos-blue);
+      border-color: var(--ingos-blue);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 47, 108, 0.25);
     }
 
     .overlay {
@@ -506,10 +528,11 @@
       transition: all 0.15s;
     }
 
+    /* Элементы бургер-меню в небесно-голубом при активности */
     .burger-item:hover, .burger-item.active {
-      background: var(--ingos-blue);
+      background: var(--ingos-sky);
       color: #fff;
-      border-color: var(--ingos-blue);
+      border-color: var(--ingos-sky);
     }
 
     .cart-item {
@@ -1317,7 +1340,7 @@
             </div>
             <div class="product-footer">
               <span class="product-code">${p.code}</span>
-              <button class="btn-select" onclick="openProductModal(${p.id})">Выбрать параметры →</button>
+              <button class="btn-preorder" onclick="openProductModal(${p.id})">Предзаказать</button>
             </div>
           </div>
         </div>

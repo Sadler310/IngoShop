@@ -184,7 +184,7 @@
     }
 
     /* ============================================================
-       3. СТИЛИ БОЛЬШОГО СЛАЙДЕРА КОЛЛЕКЦИЙ
+       3. СТИЛИ БОЛЬШОГО СЛАЙДЕРА КОЛЛЕКЦИЙ С ЗАЩИТОЙ ОТ ПЕРЕКРЫТИЯ
        ============================================================ */
     .hero-slider {
       position: relative;
@@ -221,24 +221,24 @@
       align-items: flex-end;
     }
 
-    /* Градиентное затемнение, чтобы текст всегда читался на фото */
     .slide-overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(180deg, rgba(0, 15, 35, 0.15) 0%, rgba(0, 29, 68, 0.85) 100%);
     }
 
+    /* Безопасные отступы: текст не попадает под стрелки */
     .slide-content {
       position: relative;
       z-index: 2;
-      padding: 32px;
-      max-width: 600px;
+      padding: 32px 72px; /* 72px защищает от стрелок слева и справа */
+      max-width: 620px;
       color: #fff;
     }
 
     @media (max-width: 640px) {
       .slide-content {
-        padding: 20px;
+        padding: 20px 48px; /* 48px защищает текст на узких мобильных экранах */
       }
     }
 
@@ -301,7 +301,7 @@
       box-shadow: 0 4px 12px rgba(0, 119, 255, 0.3);
     }
 
-    /* Стрелки переключения слайдера */
+    /* Стрелки навигации слайдера */
     .slider-arrow {
       position: absolute;
       top: 50%;
@@ -340,7 +340,6 @@
       .slider-arrow.next { right: 8px; }
     }
 
-    /* Точки-индикаторы слайдера */
     .slider-dots {
       position: absolute;
       bottom: 16px;
@@ -520,7 +519,7 @@
     }
 
     /* ============================================================
-       5. МОДАЛЬНОЕ ОКНО ТОВАРА (ТОЛЬКО «КОЛИЧЕСТВО», БЕЗ «ТИРАЖ»)
+       5. МОДАЛЬНОЕ ОКНО ТОВАРА (ТОЛЬКО «КОЛИЧЕСТВО»)
        ============================================================ */
     .overlay {
       position: fixed;
@@ -862,20 +861,17 @@
   <header>
     <div class="header-inner">
       <div class="header-left">
-        <!-- Бургер-кнопка меню -->
         <button class="btn-burger" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню категорий">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
-        <!-- Небесно-голубой текстовый логотип -->
         <div class="brand-logo" onclick="filterCategory('Все')" title="На главную / Все товары">
           <span class="brand-text">ИнгоШоп</span>
         </div>
       </div>
 
-      <!-- Иконка корзины -->
       <div class="header-actions">
         <button class="btn-icon" onclick="openDrawer('cartDrawer')" aria-label="Открыть корзину">
           <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -888,13 +884,10 @@
   </header>
 
   <main>
-    <!-- ============================================================
-         БОЛЬШОЙ СЛАЙДЕР КОЛЛЕКЦИЙ
-         ============================================================ -->
+    <!-- Слайдер коллекций -->
     <div class="hero-slider" id="heroSlider" onmouseenter="pauseSlider()" onmouseleave="startSlider()">
       <div class="slider-track" id="sliderTrack"></div>
 
-      <!-- Стрелки навигации -->
       <button class="slider-arrow prev" onclick="moveSlide(-1)" aria-label="Предыдущий слайд">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <polyline points="15 18 9 12 15 6"></polyline>
@@ -906,7 +899,6 @@
         </svg>
       </button>
 
-      <!-- Точки-индикаторы -->
       <div class="slider-dots" id="sliderDots"></div>
     </div>
 
@@ -932,7 +924,6 @@
     </div>
   </div>
 
-  <!-- Корзина со всеми полями заказа -->
   <div class="drawer drawer-right" id="cartDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600;">Корзина</h3>
@@ -982,7 +973,6 @@
       <div class="selector-group">
         <label class="selector-label">Количество (шт.)</label>
         
-        <!-- Кнопки быстрого выбора количества -->
         <div class="qty-presets-bar">
           <button type="button" class="qty-preset-btn active" onclick="setPresetQty(1, this)">1 шт.</button>
           <button type="button" class="qty-preset-btn" onclick="setPresetQty(10, this)">10 шт.</button>
@@ -990,7 +980,6 @@
           <button type="button" class="qty-preset-btn" onclick="setPresetQty(100, this)">100 шт.</button>
         </div>
 
-        <!-- Поле с точным выбором количества -->
         <div class="qty-custom-row">
           <span class="qty-custom-label">Точное количество:</span>
           <div class="qty-stepper-pill">
@@ -1017,10 +1006,6 @@
   <div class="overlay" id="backdropOverlay" onclick="closeAllDrawers()"></div>
 
   <script>
-    /* ============================================================
-       ДАННЫЕ ДЛЯ БОЛЬШОГО СЛАЙДЕРА КОЛЛЕКЦИЙ
-       Сюда можно вставлять ссылки на любые ваши фотографии или баннеры
-       ============================================================ */
     const SLIDES = [
       {
         tag: 'Новинки 2026',
@@ -1091,16 +1076,13 @@
       if (sliderInterval) clearInterval(sliderInterval);
       sliderInterval = setInterval(() => {
         moveSlide(1);
-      }, 5000); // смена слайда каждые 5 секунд
+      }, 5000);
     }
 
     function pauseSlider() {
       if (sliderInterval) clearInterval(sliderInterval);
     }
 
-    /* ============================================================
-       КАТАЛОГ СУВЕНИРНОЙ ПРОДУКЦИИ (64 ТОВАРА)
-       ============================================================ */
     const PRODUCTS = [
       // ОДЕЖДА
       {
@@ -1780,11 +1762,9 @@
       document.getElementById('modalProductTitle').innerText = currentModalProduct.title;
       document.getElementById('modalProductDesc').innerText = currentModalProduct.description;
       
-      // Сброс количества на 1
       document.getElementById('modalQtyInput').value = 1;
       resetPresetHighlight(1);
 
-      // Отрисовка размеров
       const sizeGroup = document.getElementById('sizeSelectorGroup');
       const sizesList = document.getElementById('modalSizesList');
       if (currentModalProduct.sizes && currentModalProduct.sizes.length > 0) {
@@ -1798,7 +1778,6 @@
         selectedSize = '';
       }
 
-      // Отрисовка цветов
       const colorGroup = document.getElementById('colorSelectorGroup');
       const colorsList = document.getElementById('modalColorsList');
       if (currentModalProduct.colors && currentModalProduct.colors.length > 0) {
@@ -1832,7 +1811,6 @@
       btn.classList.add('selected');
     }
 
-    /* Управление кнопками быстрого выбора количества */
     function setPresetQty(amount, btn) {
       document.getElementById('modalQtyInput').value = amount;
       document.querySelectorAll('.qty-preset-btn').forEach(b => b.classList.remove('active'));
@@ -1953,7 +1931,6 @@
       updateCartUI();
     }
 
-    /* Оформление заявки со всеми полями контактов и адреса */
     function submitOrder(e) {
       e.preventDefault();
       const lastName = document.getElementById('orderLastName').value.trim();

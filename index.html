@@ -213,7 +213,6 @@
       color: var(--ingos-sky);
     }
 
-    /* Активная кнопка категории теперь небесно-голубая */
     .cat-btn.active {
       background: var(--ingos-sky);
       color: #fff;
@@ -313,9 +312,7 @@
       font-family: monospace;
     }
 
-    /* ============================================================
-       4. КНОПКА «ПРЕДЗАКАЗАТЬ» С НЕБЕСНОЙ РАМКОЙ И СИНИМ ХОВЕРОМ
-       ============================================================ */
+    /* Кнопка «Предзаказать» с рамкой и ховером */
     .btn-preorder {
       background: transparent;
       border: 1.5px solid var(--ingos-sky);
@@ -332,7 +329,6 @@
       justify-content: center;
     }
 
-    /* При наведении заливаем глубоким синим цветом */
     .btn-preorder:hover {
       background: var(--ingos-blue);
       border-color: var(--ingos-blue);
@@ -340,6 +336,9 @@
       box-shadow: 0 2px 8px rgba(0, 47, 108, 0.25);
     }
 
+    /* ============================================================
+       4. МОДАЛЬНОЕ ОКНО ТОВАРА (ОБНОВЛЕННЫЙ ДИЗАЙН ВЫБОРА)
+       ============================================================ */
     .overlay {
       position: fixed;
       inset: 0;
@@ -359,7 +358,7 @@
     .modal-box {
       background: #fff;
       border-radius: 16px;
-      max-width: 460px;
+      max-width: 480px;
       width: 100%;
       padding: 24px;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -387,88 +386,166 @@
     }
 
     .selector-group {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .selector-label {
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-muted);
       margin-bottom: 8px;
       display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .pills-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
     }
 
+    /* Кнопки размеров и цветов */
     .pill-btn {
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
       font-size: 12px;
-      border: 1px solid var(--border-color);
+      font-weight: 500;
+      border: 1.5px solid var(--border-color);
       background: #fff;
+      color: var(--text-main);
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.2s ease;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--ingos-sky);
+      color: var(--ingos-sky);
     }
 
     .pill-btn.selected {
-      border-color: var(--ingos-blue);
-      background: var(--ingos-blue);
+      border-color: var(--ingos-sky);
+      background: var(--ingos-sky);
       color: #fff;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 119, 255, 0.25);
+    }
+
+    /* Красивый блок выбора тиража (пресеты + стильный инпут) */
+    .qty-presets-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .qty-preset-btn {
+      flex: 1;
+      padding: 6px 0;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #F8FAFC;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .qty-preset-btn:hover {
+      border-color: var(--ingos-sky);
+      color: var(--ingos-sky);
+    }
+
+    .qty-preset-btn.active {
+      background: var(--ingos-light);
+      border-color: var(--ingos-sky);
+      color: var(--ingos-sky);
       font-weight: 600;
     }
 
-    .qty-control {
-      display: inline-flex;
+    .qty-custom-row {
+      display: flex;
       align-items: center;
+      justify-content: space-between;
+      background: #F8FAFC;
       border: 1px solid var(--border-color);
-      border-radius: 6px;
+      border-radius: 8px;
+      padding: 6px 10px;
     }
 
-    .qty-btn {
-      padding: 4px 12px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
+    .qty-custom-label {
+      font-size: 12px;
       color: var(--text-muted);
     }
 
-    .qty-input {
-      width: 48px;
+    .qty-stepper-pill {
+      display: inline-flex;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .qty-stepper-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .qty-stepper-btn:hover {
+      background: var(--ingos-light);
+      color: var(--ingos-sky);
+    }
+
+    .qty-stepper-input {
+      width: 44px;
+      height: 28px;
       text-align: center;
       border: none;
       font-size: 13px;
       font-weight: 600;
+      color: var(--text-main);
       outline: none;
     }
 
-    .btn-primary {
+    /* Кнопка добавления в корзину */
+    .btn-modal-add {
       width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      background: var(--ingos-blue);
+      padding: 13px;
+      border-radius: 10px;
+      background: var(--ingos-sky);
+      border: 1.5px solid var(--ingos-sky);
       color: #fff;
       font-size: 13px;
       font-weight: 600;
-      border: none;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 119, 255, 0.2);
     }
 
-    .btn-primary:hover {
-      background: var(--ingos-dark);
+    .btn-modal-add:hover {
+      background: var(--ingos-blue);
+      border-color: var(--ingos-blue);
+      box-shadow: 0 4px 12px rgba(0, 47, 108, 0.25);
     }
 
+    /* ============================================================
+       5. БОКОВЫЕ ПАНЕЛИ И КОРЗИНА
+       ============================================================ */
     .drawer {
       position: fixed;
       top: 0;
       bottom: 0;
       width: 100%;
-      max-width: 380px;
+      max-width: 400px;
       background: #fff;
       z-index: 60;
       box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
@@ -528,7 +605,6 @@
       transition: all 0.15s;
     }
 
-    /* Элементы бургер-меню в небесно-голубом при активности */
     .burger-item:hover, .burger-item.active {
       background: var(--ingos-sky);
       color: #fff;
@@ -558,16 +634,36 @@
 
     .input-field {
       width: 100%;
-      padding: 10px 12px;
+      padding: 9px 12px;
       font-size: 13px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       margin-bottom: 8px;
       outline: none;
+      background: #fff;
+      transition: border-color 0.15s;
     }
 
     .input-field:focus {
       border-color: var(--ingos-sky);
+    }
+
+    .btn-submit-order {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--ingos-sky);
+      border: 1.5px solid var(--ingos-sky);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit-order:hover {
+      background: var(--ingos-blue);
+      border-color: var(--ingos-blue);
     }
 
     footer {
@@ -630,6 +726,7 @@
     </div>
   </div>
 
+  <!-- Корзина со всеми полями заказа -->
   <div class="drawer drawer-right" id="cartDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600;">Корзина</h3>
@@ -644,12 +741,15 @@
         <input type="text" id="orderLastName" class="input-field" placeholder="Фамилия *" required>
         <input type="text" id="orderFirstName" class="input-field" placeholder="Имя *" required>
         <input type="text" id="orderMiddleName" class="input-field" placeholder="Отчество *" required>
+        <input type="tel" id="orderPhone" class="input-field" placeholder="Номер телефона *" required>
         <input type="email" id="orderEmail" class="input-field" placeholder="Электронная почта *" required>
-        <button type="submit" class="btn-primary" style="margin-top: 4px;">Отправить заказ</button>
+        <textarea id="orderAddress" class="input-field" rows="2" placeholder="Адрес доставки (город, офис, этаж) *" required style="resize: none;"></textarea>
+        <button type="submit" class="btn-submit-order" style="margin-top: 4px;">Отправить заявку</button>
       </form>
     </div>
   </div>
 
+  <!-- Модальное окно выбора параметров товара -->
   <div class="overlay" id="productModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -663,25 +763,48 @@
       <p id="modalProductDesc" style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4;"></p>
 
       <div class="selector-group" id="sizeSelectorGroup">
-        <label class="selector-label">Выберите размер / тип</label>
+        <label class="selector-label">Размер / Тип</label>
         <div class="pills-list" id="modalSizesList"></div>
       </div>
 
       <div class="selector-group" id="colorSelectorGroup">
-        <label class="selector-label">Цвет изделия</label>
+        <label class="selector-label">Цвет</label>
         <div class="pills-list" id="modalColorsList"></div>
       </div>
 
+      <!-- Новый стильный блок тиража -->
       <div class="selector-group">
         <label class="selector-label">Количество (тираж, шт.)</label>
-        <div class="qty-control">
-          <button type="button" class="qty-btn" onclick="adjustQty(-1)">-</button>
-          <input type="number" id="modalQtyInput" class="qty-input" value="1" min="1">
-          <button type="button" class="qty-btn" onclick="adjustQty(1)">+</button>
+        
+        <!-- Кнопки быстрых тиражей -->
+        <div class="qty-presets-bar">
+          <button type="button" class="qty-preset-btn active" onclick="setPresetQty(1, this)">1 шт.</button>
+          <button type="button" class="qty-preset-btn" onclick="setPresetQty(10, this)">10 шт.</button>
+          <button type="button" class="qty-preset-btn" onclick="setPresetQty(50, this)">50 шт.</button>
+          <button type="button" class="qty-preset-btn" onclick="setPresetQty(100, this)">100 шт.</button>
+        </div>
+
+        <!-- Поле с деликатными кнопками -->
+        <div class="qty-custom-row">
+          <span class="qty-custom-label">Точное количество:</span>
+          <div class="qty-stepper-pill">
+            <button type="button" class="qty-stepper-btn" onclick="adjustQty(-1)" aria-label="Меньше">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+            <input type="number" id="modalQtyInput" class="qty-stepper-input" value="1" min="1" oninput="onCustomQtyInput()">
+            <button type="button" class="qty-stepper-btn" onclick="adjustQty(1)" aria-label="Больше">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <button type="button" class="btn-primary" onclick="confirmAddToCart()" style="margin-top: 8px;">Добавить в корзину</button>
+      <button type="button" class="btn-modal-add" onclick="confirmAddToCart()" style="margin-top: 8px;">Добавить в корзину</button>
     </div>
   </div>
 
@@ -1363,8 +1486,12 @@
       document.getElementById('modalProductCode').innerText = currentModalProduct.code + ' • ' + currentModalProduct.category;
       document.getElementById('modalProductTitle').innerText = currentModalProduct.title;
       document.getElementById('modalProductDesc').innerText = currentModalProduct.description;
+      
+      // Сброс количества на 1 и подсветка кнопки "1 шт."
       document.getElementById('modalQtyInput').value = 1;
+      resetPresetHighlight(1);
 
+      // Отрисовка размеров
       const sizeGroup = document.getElementById('sizeSelectorGroup');
       const sizesList = document.getElementById('modalSizesList');
       if (currentModalProduct.sizes && currentModalProduct.sizes.length > 0) {
@@ -1378,6 +1505,7 @@
         selectedSize = '';
       }
 
+      // Отрисовка цветов
       const colorGroup = document.getElementById('colorSelectorGroup');
       const colorsList = document.getElementById('modalColorsList');
       if (currentModalProduct.colors && currentModalProduct.colors.length > 0) {
@@ -1411,11 +1539,37 @@
       btn.classList.add('selected');
     }
 
+    /* Управление быстрым выбором тиража */
+    function setPresetQty(amount, btn) {
+      document.getElementById('modalQtyInput').value = amount;
+      document.querySelectorAll('.qty-preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function resetPresetHighlight(currentVal) {
+      document.querySelectorAll('.qty-preset-btn').forEach(b => {
+        const val = parseInt(b.innerText);
+        if (val === currentVal) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+    }
+
     function adjustQty(delta) {
       const input = document.getElementById('modalQtyInput');
       let val = parseInt(input.value) || 1;
       val = Math.max(1, val + delta);
       input.value = val;
+      resetPresetHighlight(val);
+    }
+
+    function onCustomQtyInput() {
+      const input = document.getElementById('modalQtyInput');
+      let val = parseInt(input.value) || 1;
+      if (val < 1) val = 1;
+      resetPresetHighlight(val);
     }
 
     function confirmAddToCart() {
@@ -1506,16 +1660,19 @@
       updateCartUI();
     }
 
+    /* Оформление заказа со всеми полями */
     function submitOrder(e) {
       e.preventDefault();
       const lastName = document.getElementById('orderLastName').value.trim();
       const firstName = document.getElementById('orderFirstName').value.trim();
       const middleName = document.getElementById('orderMiddleName').value.trim();
+      const phone = document.getElementById('orderPhone').value.trim();
       const email = document.getElementById('orderEmail').value.trim();
+      const address = document.getElementById('orderAddress').value.trim();
 
       const orderNumber = 'ING-2026-' + Math.floor(1000 + Math.random() * 9000);
 
-      alert(`Спасибо, ${lastName} ${firstName} ${middleName}!\nВаш заказ №${orderNumber} оформлен.\nПодтверждение отправлено на почту: ${email}`);
+      alert(`Спасибо, ${lastName} ${firstName} ${middleName}!\n\nВаша заявка №${orderNumber} успешно принята в обработку.\n\nДанные для доставки:\n• Телефон: ${phone}\n• Почта: ${email}\n• Адрес: ${address}`);
 
       cart = [];
       saveCart();

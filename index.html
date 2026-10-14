@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ИнгоШоп — Мерч СПАО «Ингосстрах»</title>
+  <title>ИнгоШоп — Каталог мерча</title>
   
+  <!-- Шрифт Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* Базовые сбросы и переменные бренда Ингосстрах */
     :root {
       --ingos-blue: #002F6C;
       --ingos-dark: #001D44;
@@ -41,7 +41,7 @@
     header {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border-color);
       z-index: 40;
@@ -57,39 +57,42 @@
       justify-content: space-between;
     }
 
-    .brand {
+    .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
+    }
+
+    /* Кнопка бургера — теперь полностью независима */
+    .btn-burger {
+      background: none;
+      border: 1px solid var(--border-color);
       cursor: pointer;
-    }
-
-    .brand-mark {
-      width: 8px;
-      height: 28px;
-      background: var(--ingos-blue);
-      border-radius: 4px;
-    }
-
-    .brand-title {
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      color: var(--ingos-blue);
-    }
-
-    .brand-subtitle {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-left: 6px;
-      font-weight: 400;
-    }
-
-    .header-actions {
+      padding: 8px 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
+      color: var(--text-main);
+      transition: all 0.15s;
+    }
+
+    .btn-burger:hover {
+      background: #F1F5F9;
+      border-color: #CBD5E1;
+    }
+
+    /* Кликабельный векторный логотип */
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .brand-logo:hover {
+      opacity: 0.85;
     }
 
     .btn-icon {
@@ -102,8 +105,8 @@
       align-items: center;
       justify-content: center;
       color: var(--text-main);
-      transition: background 0.15s;
       position: relative;
+      transition: background 0.15s;
     }
 
     .btn-icon:hover {
@@ -126,7 +129,7 @@
       justify-content: center;
     }
 
-    /* Основная сетка */
+    /* Основная рабочая зона */
     main {
       max-width: 1200px;
       width: 100%;
@@ -135,7 +138,7 @@
       flex-grow: 1;
     }
 
-    /* Категории (чипсы) */
+    /* Горизонтальные чипсы категорий */
     .categories-bar {
       display: flex;
       gap: 8px;
@@ -146,7 +149,7 @@
     }
 
     .cat-btn {
-      padding: 6px 16px;
+      padding: 7px 16px;
       border-radius: 9999px;
       font-size: 13px;
       font-weight: 500;
@@ -164,7 +167,7 @@
       border-color: var(--ingos-blue);
     }
 
-    /* Сетка товаров */
+    /* Карточки товаров */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -184,12 +187,12 @@
 
     .product-card:hover {
       border-color: #94A3B8;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       transform: translateY(-2px);
     }
 
     .product-preview {
-      height: 200px;
+      height: 190px;
       background: #F8FAFC;
       display: flex;
       align-items: center;
@@ -199,8 +202,8 @@
     }
 
     .product-preview svg {
-      width: 72px;
-      height: 72px;
+      width: 64px;
+      height: 64px;
       stroke: var(--ingos-blue);
       opacity: 0.85;
     }
@@ -270,7 +273,7 @@
       text-decoration: underline;
     }
 
-    /* Модальные окна и оверлеи */
+    /* Модальное окно и оверлеи */
     .overlay {
       position: fixed;
       inset: 0;
@@ -290,7 +293,7 @@
     .modal-box {
       background: #fff;
       border-radius: 16px;
-      max-width: 480px;
+      max-width: 460px;
       width: 100%;
       padding: 24px;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -300,7 +303,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 12px;
     }
@@ -342,6 +345,7 @@
       border: 1px solid var(--border-color);
       background: #fff;
       cursor: pointer;
+      transition: all 0.15s;
     }
 
     .pill-btn.selected {
@@ -393,13 +397,13 @@
       background: var(--ingos-dark);
     }
 
-    /* Боковая панель корзины */
+    /* Выдвижные шторки (Drawers) */
     .drawer {
       position: fixed;
       top: 0;
       bottom: 0;
       width: 100%;
-      max-width: 400px;
+      max-width: 380px;
       background: #fff;
       z-index: 60;
       box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
@@ -445,6 +449,26 @@
       background: #F8FAFC;
     }
 
+    .burger-item {
+      text-align: left;
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .burger-item:hover, .burger-item.active {
+      background: var(--ingos-blue);
+      color: #fff;
+      border-color: var(--ingos-blue);
+    }
+
     .cart-item {
       padding: 12px;
       border: 1px solid var(--border-color);
@@ -468,8 +492,8 @@
 
     .input-field {
       width: 100%;
-      padding: 8px 12px;
-      font-size: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       margin-bottom: 8px;
@@ -495,69 +519,81 @@
   <!-- Шапка сайта -->
   <header>
     <div class="header-inner">
-      <div class="brand" onclick="filterCategory('Все')">
-        <button class="btn-icon" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню">
-          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <div class="header-left">
+        <!-- Кнопка бургер-меню: кликабельна и независима -->
+        <button class="btn-burger" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню категорий">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
         </button>
-        <div class="brand-mark"></div>
-        <div>
-          <span class="brand-title">ИнгоШоп</span>
-          <span class="brand-subtitle">Мерч Ингосстрах</span>
+
+        <!-- Векторный логотип Ингосстрах: клик возвращает ко всем товарам -->
+        <div class="brand-logo" onclick="filterCategory('Все')" title="На главную / Все товары">
+          <svg width="190" height="36" viewBox="0 0 190 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Эмблема Ингосстрах: синий скошенный шестиугольник с буквой И -->
+            <rect width="36" height="36" rx="8" fill="#002F6C"/>
+            <path d="M12 25V11H15.5L20.5 19V11H24V25H20.5L15.5 17V25H12Z" fill="white"/>
+            <!-- Текстовая надпись ИНГОССТРАХ в официальной геометрии -->
+            <text x="46" y="24" fill="#002F6C" font-size="15" font-weight="700" letter-spacing="1.5" font-family="'Inter', sans-serif">ИНГОССТРАХ</text>
+          </svg>
         </div>
       </div>
 
+      <!-- Иконка корзины -->
       <div class="header-actions">
         <button class="btn-icon" onclick="openDrawer('cartDrawer')" aria-label="Открыть корзину">
-          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
           <span id="cartCountBadge" class="cart-badge" style="display: none;">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Основной раздел -->
+  <!-- Основной контент -->
   <main>
-    <!-- Горизонтальные категории -->
+    <!-- Горизонтальная панель категорий -->
     <div class="categories-bar" id="categoriesBar"></div>
 
-    <!-- Сетка товаров -->
+    <!-- Сетка карточек товаров -->
     <div class="products-grid" id="productsGrid"></div>
   </main>
 
   <!-- Подвал сайта -->
   <footer>
-    © 2026 СПАО «Ингосстрах». Официальный каталог корпоративной продукции.
+    © 2026 СПАО «Ингосстрах». Каталог корпоративной сувенирной продукции.
   </footer>
 
-  <!-- Бургер-меню (Выдвигается слева) -->
+  <!-- Бургер-меню (выезжает слева) -->
   <div class="drawer drawer-left" id="burgerDrawer">
     <div class="drawer-header">
-      <h3 style="font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ingos-blue);">Категории каталога</h3>
+      <h3 style="font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ingos-blue);">Категории</h3>
       <button class="btn-icon" onclick="closeDrawer('burgerDrawer')">✕</button>
     </div>
     <div class="drawer-body" id="burgerNavList"></div>
     <div class="drawer-footer" style="font-size: 11px; color: var(--text-muted);">
-      Вопросы по тиражам: merch@ingos.ru
+      Выберите категорию для быстрого перехода
     </div>
   </div>
 
-  <!-- Корзина (Выдвигается справа) -->
+  <!-- Корзина (выезжает справа) -->
   <div class="drawer drawer-right" id="cartDrawer">
     <div class="drawer-header">
-      <h3 style="font-size: 15px; font-weight: 600;">Корзина заказа</h3>
+      <h3 style="font-size: 15px; font-weight: 600;">Корзина</h3>
       <button class="btn-icon" onclick="closeDrawer('cartDrawer')">✕</button>
     </div>
     <div class="drawer-body" id="cartItemsList">
       <p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-top: 40px;">Корзина пока пуста</p>
     </div>
     <div class="drawer-footer" id="cartFooter" style="display: none;">
-      <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Данные получателя</h4>
+      <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 10px;">Оформление заказа</h4>
       <form onsubmit="submitOrder(event)">
-        <input type="text" id="orderFio" class="input-field" placeholder="ФИО сотрудника *" required>
-        <input type="email" id="orderEmail" class="input-field" placeholder="Корпоративная почта *" required>
-        <input type="tel" id="orderPhone" class="input-field" placeholder="Номер телефона *" required>
-        <textarea id="orderAddress" class="input-field" rows="2" placeholder="Адрес доставки (город, офис, этаж) *" required style="resize: none;"></textarea>
-        <button type="submit" class="btn-primary" style="margin-top: 4px;">Сформировать заявку</button>
+        <input type="text" id="orderLastName" class="input-field" placeholder="Фамилия *" required>
+        <input type="text" id="orderFirstName" class="input-field" placeholder="Имя *" required>
+        <input type="text" id="orderMiddleName" class="input-field" placeholder="Отчество *" required>
+        <input type="email" id="orderEmail" class="input-field" placeholder="Электронная почта *" required>
+        <button type="submit" class="btn-primary" style="margin-top: 4px;">Отправить заказ</button>
       </form>
     </div>
   </div>
@@ -598,12 +634,12 @@
     </div>
   </div>
 
-  <!-- Оверлей для закрытия боковых панелей -->
+  <!-- Затемняющий оверлей для закрытия шторок -->
   <div class="overlay" id="backdropOverlay" onclick="closeAllDrawers()"></div>
 
-  <!-- Чистый нативный JavaScript -->
+  <!-- Скрипт логики магазина -->
   <script>
-    // 1. Каталог товаров СПАО «Ингосстрах» 2026
+    // Каталог сувенирной продукции Ингосстрах 2026
     const PRODUCTS = [
       {
         id: 1,
@@ -716,20 +752,16 @@
     ];
 
     const CATEGORIES = ['Все', 'Одежда', 'Посуда и термосы', 'Офис и гаджеты', 'Путешествия и авто', 'Аксессуары'];
-
-    // Векторная иконка для карточек
     const BOX_SVG = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>';
 
-    // Переменные состояния
     let currentCategory = 'Все';
     let currentModalProduct = null;
     let selectedSize = '';
     let selectedColor = '';
     let cart = [];
 
-    // Инициализация при загрузке страницы
+    // Старт приложения
     window.addEventListener('DOMContentLoaded', () => {
-      // Загрузка сохраненной корзины
       try {
         const saved = localStorage.getItem('ingoshop_cart_local');
         if (saved) cart = JSON.parse(saved);
@@ -743,7 +775,7 @@
       updateCartUI();
     });
 
-    // 2. Отрисовка категорий
+    // Отрисовка верхних кнопок категорий
     function renderCategories() {
       const bar = document.getElementById('categoriesBar');
       bar.innerHTML = CATEGORIES.map(cat => `
@@ -753,15 +785,16 @@
       `).join('');
     }
 
-    // 3. Фильтрация
+    // Выбор категории
     function filterCategory(cat) {
       currentCategory = cat;
       renderCategories();
       renderProducts();
+      renderBurgerMenu();
       closeAllDrawers();
     }
 
-    // 4. Отрисовка товаров
+    // Отрисовка сетки товаров
     function renderProducts() {
       const grid = document.getElementById('productsGrid');
       const items = currentCategory === 'Все' 
@@ -786,24 +819,24 @@
             </div>
             <div class="product-footer">
               <span class="product-code">${p.code}</span>
-              <button class="btn-select" onclick="openProductModal(${p.id})">Выбрать →</button>
+              <button class="btn-select" onclick="openProductModal(${p.id})">Выбрать параметры →</button>
             </div>
           </div>
         </div>
       `).join('');
     }
 
-    // 5. Отрисовка бургер-меню
+    // Отрисовка категорий в бургер-меню
     function renderBurgerMenu() {
       const list = document.getElementById('burgerNavList');
       list.innerHTML = CATEGORIES.map(cat => `
-        <button class="cat-btn" style="text-align: left; width: 100%; border-radius: 8px; margin-bottom: 4px;" onclick="filterCategory('${cat}')">
+        <button class="burger-item ${cat === currentCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">
           ${cat}
         </button>
       `).join('');
     }
 
-    // 6. Модальное окно товара
+    // Модальное окно товара
     function openProductModal(id) {
       currentModalProduct = PRODUCTS.find(p => p.id === id);
       if (!currentModalProduct) return;
@@ -868,7 +901,7 @@
       input.value = val;
     }
 
-    // 7. Добавление в корзину
+    // Корзина
     function confirmAddToCart() {
       if (!currentModalProduct) return;
       const qty = parseInt(document.getElementById('modalQtyInput').value) || 1;
@@ -896,7 +929,6 @@
       openDrawer('cartDrawer');
     }
 
-    // 8. Управление боковыми панелями
     function openDrawer(drawerId) {
       document.getElementById(drawerId).classList.add('open');
       document.getElementById('backdropOverlay').classList.add('active');
@@ -913,7 +945,6 @@
       closeModal();
     }
 
-    // 9. Отрисовка корзины
     function updateCartUI() {
       const count = cart.reduce((sum, item) => sum + item.qty, 0);
       const badge = document.getElementById('cartCountBadge');
@@ -959,13 +990,17 @@
       updateCartUI();
     }
 
-    // 10. Оформление заказа
+    // Оформление заказа (только Фамилия, Имя, Отчество, Email)
     function submitOrder(e) {
       e.preventDefault();
-      const orderNumber = 'ING-2026-' + Math.floor(1000 + Math.random() * 9000);
-      const fio = document.getElementById('orderFio').value;
+      const lastName = document.getElementById('orderLastName').value.trim();
+      const firstName = document.getElementById('orderFirstName').value.trim();
+      const middleName = document.getElementById('orderMiddleName').value.trim();
+      const email = document.getElementById('orderEmail').value.trim();
 
-      alert(`Спасибо, ${fio}!\nВаша заявка №${orderNumber} успешно принята в обработку.`);
+      const orderNumber = 'ING-2026-' + Math.floor(1000 + Math.random() * 9000);
+
+      alert(`Спасибо, ${lastName} ${firstName} ${middleName}!\nВаш заказ №${orderNumber} оформлен.\nПодтверждение отправлено на почту: ${email}`);
 
       cart = [];
       saveCart();

@@ -10,22 +10,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Стили Tailwind CSS и надежный CDN Vue 3 -->
+  <!-- Tailwind CSS и Vue 3 (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-  
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Плавный скроллбар */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E5E7EB;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D1D5DB;
+    }
+  </style>
 </head>
 <body class="bg-[#FBFBFB] text-[#1D1D1F] antialiased selection:bg-[#002F6C] selection:text-white">
-  <div id="app" v-cloak class="min-h-screen flex flex-col justify-between">
+  
+  <div id="app" class="min-h-screen flex flex-col justify-between">
     
     <!-- Шапка сайта -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200">
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Бургер и Логотип -->
+        <!-- Бургер и Название магазина -->
         <div class="flex items-center space-x-4">
-          <button @click="isDrawerOpen = true" class="p-2 -ml-2 text-neutral-700 hover:text-black transition" aria-label="Открыть меню">
+          <button @click="isDrawerOpen = true" type="button" class="p-2 -ml-2 text-neutral-700 hover:text-black transition" aria-label="Открыть меню">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
             </svg>
@@ -40,21 +61,21 @@
           </div>
         </div>
 
-        <!-- Поиск и Корзина -->
+        <!-- Поисковая строка и Корзина -->
         <div class="flex items-center space-x-3 sm:space-x-4">
           <div class="relative hidden sm:block">
             <input 
               v-model="searchQuery" 
               type="text" 
               placeholder="Поиск по каталогу..."
-              class="w-56 lg:w-72 pl-9 pr-4 py-1.5 text-xs bg-neutral-100 hover:bg-neutral-200/70 focus:bg-white border border-transparent focus:border-neutral-300 rounded-full outline-none transition"
+              class="w-56 lg:w-72 pl-9 pr-4 py-1.5 text-xs bg-neutral-100 hover:bg-neutral-200/60 focus:bg-white border border-transparent focus:border-neutral-300 rounded-full outline-none transition"
             >
             <svg class="w-4 h-4 text-neutral-400 absolute left-3 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
             </svg>
           </div>
 
-          <button @click="isCartOpen = true" class="relative p-2 text-neutral-700 hover:text-black transition">
+          <button @click="isCartOpen = true" type="button" class="relative p-2 text-neutral-700 hover:text-black transition">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
             </svg>
@@ -67,15 +88,16 @@
       </div>
     </header>
 
-    <!-- Основное содержимое -->
+    <!-- Основной контент -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
       
-      <!-- Горизонтальные категории -->
-      <div class="flex items-center space-x-2 overflow-x-auto pb-4 mb-6 border-b border-neutral-100 scrollbar-none">
+      <!-- Горизонтальные фильтры категорий -->
+      <div class="flex items-center space-x-2 overflow-x-auto pb-4 mb-6 border-b border-neutral-100">
         <button 
           v-for="cat in categories" 
           :key="cat"
           @click="activeCategory = cat"
+          type="button"
           :class="activeCategory === cat ? 'bg-[#002F6C] text-white' : 'bg-white text-neutral-600 hover:bg-neutral-100 border border-neutral-200'"
           class="px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition"
         >
@@ -90,6 +112,7 @@
           :key="product.id"
           class="group bg-white border border-neutral-200 rounded-xl overflow-hidden flex flex-col justify-between hover:border-neutral-400 hover:shadow-sm transition duration-200"
         >
+          <!-- Область предпросмотра -->
           <div @click="openQuickView(product)" class="cursor-pointer bg-neutral-50 h-56 p-6 flex items-center justify-center relative overflow-hidden">
             <span class="text-xs uppercase tracking-wider text-neutral-400 absolute top-3 left-3">{{ product.category }}</span>
             <div class="text-neutral-400 group-hover:scale-105 transition-transform duration-300" v-html="product.iconSvg"></div>
@@ -100,6 +123,7 @@
             </div>
           </div>
 
+          <!-- Название, описание и кнопка выбора -->
           <div class="p-4 flex flex-col flex-grow justify-between">
             <div>
               <h3 @click="openQuickView(product)" class="text-sm font-medium text-neutral-900 line-clamp-1 cursor-pointer hover:text-[#002F6C]">
@@ -112,6 +136,7 @@
               <span class="text-xs text-neutral-400 font-mono">{{ product.code }}</span>
               <button 
                 @click="openQuickView(product)"
+                type="button"
                 class="text-xs font-semibold text-[#002F6C] hover:text-[#001D44] underline-offset-4 hover:underline"
               >
                 Выбрать параметры →
@@ -123,8 +148,8 @@
 
       <!-- Заглушка при отсутствии совпадений -->
       <div v-else class="text-center py-20">
-        <p class="text-sm text-neutral-500">По вашему запросу ничего не найдено.</p>
-        <button @click="searchQuery = ''; activeCategory = 'Все'" class="mt-3 text-xs text-[#002F6C] font-semibold underline">
+        <p class="text-sm text-neutral-500">По вашему запросу товары не найдены.</p>
+        <button @click="searchQuery = ''; activeCategory = 'Все'" type="button" class="mt-3 text-xs text-[#002F6C] font-semibold underline">
           Сбросить фильтры
         </button>
       </div>
@@ -134,18 +159,18 @@
     <!-- Подвал сайта -->
     <footer class="bg-white border-t border-neutral-200 py-6 mt-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-neutral-400">
-        © 2026 СПАО «Ингосстрах». ИнгоШоп — каталог корпоративной продукции.
+        © 2026 СПАО «Ингосстрах». ИнгоШоп — корпоративная сувенирная продукция.
       </div>
     </footer>
 
-    <!-- Бургер-меню (Drawer) -->
+    <!-- Бургер-меню (Выдвижная панель слева) -->
     <div v-if="isDrawerOpen" class="fixed inset-0 z-50 flex">
       <div @click="isDrawerOpen = false" class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity"></div>
       <div class="relative w-full max-w-xs bg-white h-full shadow-xl z-10 flex flex-col justify-between p-6">
         <div>
           <div class="flex items-center justify-between pb-4 border-b border-neutral-200">
             <span class="text-sm font-semibold uppercase tracking-wider text-[#002F6C]">Категории мерча</span>
-            <button @click="isDrawerOpen = false" class="text-neutral-400 hover:text-black">
+            <button @click="isDrawerOpen = false" type="button" class="text-neutral-400 hover:text-black">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -156,6 +181,7 @@
               v-for="cat in categories" 
               :key="cat"
               @click="activeCategory = cat; isDrawerOpen = false"
+              type="button"
               :class="activeCategory === cat ? 'bg-neutral-100 text-[#002F6C] font-semibold' : 'text-neutral-600 hover:bg-neutral-50 font-normal'"
               class="w-full text-left px-3 py-2.5 rounded-lg text-sm transition flex items-center justify-between"
             >
@@ -165,12 +191,12 @@
           </nav>
         </div>
         <div class="text-[11px] text-neutral-400 border-t border-neutral-100 pt-4">
-          Поддержка: merch@ingos.ru
+          Служба поддержки: merch@ingos.ru
         </div>
       </div>
     </div>
 
-    <!-- Модальное окно карточки товара -->
+    <!-- Модальное окно выбора параметров (Карточка товара) -->
     <div v-if="selectedProduct" class="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div @click="selectedProduct = null" class="fixed inset-0 bg-black/40 backdrop-blur-sm"></div>
       <div class="relative bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl z-10 overflow-hidden">
@@ -179,7 +205,7 @@
             <span class="text-xs uppercase font-mono text-neutral-400">{{ selectedProduct.category }} • {{ selectedProduct.code }}</span>
             <h2 class="text-lg font-semibold text-neutral-900 mt-0.5">{{ selectedProduct.title }}</h2>
           </div>
-          <button @click="selectedProduct = null" class="text-neutral-400 hover:text-neutral-700">
+          <button @click="selectedProduct = null" type="button" class="text-neutral-400 hover:text-neutral-700">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -195,121 +221,5 @@
                 v-for="size in selectedProduct.sizes" 
                 :key="size"
                 @click="itemForm.size = size"
-                :class="itemForm.size === size ? 'border-[#002F6C] bg-[#002F6C] text-white' : 'border-neutral-200 text-neutral-700 hover:bg-neutral-100'"
-                class="px-3.5 py-1.5 border rounded-lg text-xs font-medium transition"
-              >
-                {{ size }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Выбор цвета -->
-          <div v-if="selectedProduct.colors && selectedProduct.colors.length">
-            <label class="block text-xs font-medium text-neutral-700 mb-2">Цветовое исполнение</label>
-            <div class="flex flex-wrap gap-2">
-              <button 
-                v-for="color in selectedProduct.colors" 
-                :key="color"
-                @click="itemForm.color = color"
-                :class="itemForm.color === color ? 'border-[#002F6C] bg-[#002F6C]/10 text-[#002F6C] font-semibold' : 'border-neutral-200 text-neutral-600 hover:bg-neutral-100'"
-                class="px-3 py-1.5 border rounded-lg text-xs transition"
-              >
-                {{ color }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Количество (тираж) с безопасным методом decreaseQty -->
-          <div>
-            <label class="block text-xs font-medium text-neutral-700 mb-2">Количество (шт.)</label>
-            <div class="inline-flex items-center border border-neutral-200 rounded-lg">
-              <button @click="decreaseQty" class="px-3 py-1 text-neutral-500 hover:text-black">-</button>
-              <input v-model.number="itemForm.qty" type="number" min="1" class="w-14 text-center text-xs font-semibold focus:outline-none">
-              <button @click="itemForm.qty++" class="px-3 py-1 text-neutral-500 hover:text-black">+</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-4 border-t border-neutral-100 flex items-center justify-end space-x-3">
-          <button @click="selectedProduct = null" class="px-4 py-2 text-xs text-neutral-600 hover:text-black">Отмена</button>
-          <button @click="addToCart" class="px-5 py-2.5 bg-[#002F6C] hover:bg-[#002352] text-white rounded-lg text-xs font-medium transition shadow-sm">
-            Добавить в корзину
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Корзина (Drawer) -->
-    <div v-if="isCartOpen" class="fixed inset-0 z-50 flex justify-end">
-      <div @click="isCartOpen = false" class="fixed inset-0 bg-black/40 backdrop-blur-sm"></div>
-      <div class="relative w-full max-w-md bg-white h-full shadow-2xl z-10 flex flex-col justify-between">
-        
-        <div class="p-6 border-b border-neutral-200 flex items-center justify-between">
-          <h2 class="text-base font-semibold text-neutral-900">Выбранные позиции ({{ cartTotalCount }})</h2>
-          <button @click="isCartOpen = false" class="text-neutral-400 hover:text-neutral-700">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
-        </div>
-
-        <div class="flex-grow overflow-y-auto p-6 space-y-4">
-          <div v-if="cart.length === 0" class="text-center py-16 text-neutral-400 text-xs">
-            Корзина пока пуста. Выберите нужные позиции в каталоге.
-          </div>
-
-          <div 
-            v-for="(item, index) in cart" 
-            :key="index"
-            class="flex items-start justify-between p-3.5 bg-neutral-50 rounded-xl border border-neutral-100"
-          >
-            <div class="space-y-1">
-              <h4 class="text-xs font-semibold text-neutral-900">{{ item.title }}</h4>
-              <p class="text-[11px] text-neutral-500">
-                <span v-if="item.size">Размер: <b>{{ item.size }}</b> | </span>
-                <span v-if="item.color">Цвет: <b>{{ item.color }}</b></span>
-              </p>
-              <div class="flex items-center space-x-2 pt-1 text-xs text-neutral-600">
-                <span>Кол-во:</span>
-                <input 
-                  v-model.number="item.qty" 
-                  @change="if(!item.qty || item.qty < 1) item.qty = 1"
-                  type="number" 
-                  min="1" 
-                  class="w-12 text-center text-xs py-0.5 bg-white border border-neutral-200 rounded"
-                >
-              </div>
-            </div>
-
-            <button @click="removeFromCart(index)" class="text-neutral-400 hover:text-red-500 transition p-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <div v-if="cart.length > 0" class="p-6 border-t border-neutral-200 bg-neutral-50/50 space-y-4">
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-neutral-700">Оформление заявки</h3>
-          
-          <form @submit.prevent="submitOrder" class="space-y-2.5 text-xs">
-            <div>
-              <input v-model="orderForm.fio" required type="text" placeholder="ФИО контактного лица *" class="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg outline-none focus:border-[#002F6C]">
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <input v-model="orderForm.email" required type="email" placeholder="Электронная почта *" class="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg outline-none focus:border-[#002F6C]">
-              <input v-model="orderForm.phone" required type="tel" placeholder="Номер телефона *" class="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg outline-none focus:border-[#002F6C]">
-            </div>
-            <div>
-              <textarea v-model="orderForm.address" required rows="2" placeholder="Адрес доставки (город, улица, офис) *" class="w-full px-3 py-2 bg-white border border-neutral-200 rounded-lg outline-none focus:border-[#002F6C] resize-none"></textarea>
-            </div>
-
-            <button type="submit" class="w-full mt-2 py-3 bg-[#002F6C] hover:bg-[#002352] text-white rounded-lg text-xs font-semibold tracking-wide transition shadow-sm">
-              Отправить заявку на мерч
-            </button>
-          </form>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Модальное окно подтверждения -->
-    <div v-if="orderCompleted" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div @click="orderCompleted = false" class="fixed inset-0 bg-black/40 backdrop-blur-sm"></div>
-      <div class="relative bg-white rounded-2xl max-w-sm w-full
+                type="button"
+                :class="itemForm.size === size ? 'border-[#002F6C] bg-[#002F6C] text-white' : 'border-neutral-20

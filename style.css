@@ -34,3 +34,13 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #CCCCCC;
 }
+
+/* Увеличенный логотип без белого фона */
+.brand-img {
+  height: 44px; /* Увеличили высоту с 32px до 44px */
+  width: auto;
+  max-width: 240px; /* Увеличили ширину для сохранения пропорций */
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply; /* Делает белый фон изображения прозрачным */
+}

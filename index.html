@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ИнгоШоп — Каталог мерча</title>
   
-  <!-- Резервный шрифт Google Fonts (на случай отсутствия локальных файлов) -->
+  <!-- Резервный шрифт Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -51,6 +51,7 @@
       --font-main: 'IngoStem', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --ingos-blue: #002F6C;
       --ingos-dark: #001D44;
+      --ingos-sky: #0077FF;       /* Официальный небесно-голубой цвет */
       --ingos-light: #F0F4FA;
       --border-color: #E2E8F0;
       --bg-page: #F8FAFC;
@@ -117,7 +118,7 @@
       border-color: #CBD5E1;
     }
 
-    /* Текстовый логотип ИнгоШоп */
+    /* Кликабельный текстовый логотип ИнгоШоп */
     .brand-logo {
       display: flex;
       align-items: center;
@@ -131,12 +132,13 @@
       opacity: 0.85;
     }
 
+    /* Название в небесно-голубом цвете */
     .brand-text {
       font-family: var(--font-main);
-      font-size: 24px;
+      font-size: 25px;
       font-weight: 700;
       letter-spacing: -0.01em;
-      color: var(--ingos-blue);
+      color: var(--ingos-sky);
       line-height: 1;
     }
 
@@ -162,7 +164,7 @@
       position: absolute;
       top: 2px;
       right: 2px;
-      background: var(--ingos-blue);
+      background: var(--ingos-sky);
       color: #fff;
       font-size: 10px;
       font-weight: 600;
@@ -278,7 +280,7 @@
     }
 
     .product-title:hover {
-      color: var(--ingos-blue);
+      color: var(--ingos-sky);
     }
 
     .product-desc {
@@ -312,6 +314,7 @@
     }
 
     .btn-select:hover {
+      color: var(--ingos-sky);
       text-decoration: underline;
     }
 
@@ -541,7 +544,7 @@
     }
 
     .input-field:focus {
-      border-color: var(--ingos-blue);
+      border-color: var(--ingos-sky);
     }
 
     footer {
@@ -559,14 +562,14 @@
   <header>
     <div class="header-inner">
       <div class="header-left">
-        <!-- Кнопка бургер-меню -->
+        <!-- Бургер-кнопка меню -->
         <button class="btn-burger" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню категорий">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
-        <!-- Кликабельное текстовое название ИнгоШоп -->
+        <!-- Небесно-голубой текстовый логотип -->
         <div class="brand-logo" onclick="filterCategory('Все')" title="На главную / Все товары">
           <span class="brand-text">ИнгоШоп</span>
         </div>
@@ -593,7 +596,6 @@
     © 2026 СПАО «Ингосстрах». Каталог корпоративной сувенирной продукции.
   </footer>
 
-  <!-- Бургер-меню -->
   <div class="drawer drawer-left" id="burgerDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600; text-transform: uppercase; color: var(--ingos-blue);">Категории</h3>
@@ -605,7 +607,6 @@
     </div>
   </div>
 
-  <!-- Корзина -->
   <div class="drawer drawer-right" id="cartDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600;">Корзина</h3>
@@ -626,7 +627,6 @@
     </div>
   </div>
 
-  <!-- Модальное окно товара -->
   <div class="overlay" id="productModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -664,7 +664,6 @@
 
   <div class="overlay" id="backdropOverlay" onclick="closeAllDrawers()"></div>
 
-  <!-- Скрипт каталога и логики корзины -->
   <script>
     const PRODUCTS = [
       // ОДЕЖДА

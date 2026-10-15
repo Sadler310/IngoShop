@@ -10,6 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
+  <!-- Библиотека EmailJS для отправки писем -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <style>
     /* ============================================================
        1. ПОДКЛЮЧЕНИЕ ФИРМЕННЫХ ШРИФТОВ ИНГОССТРАХА (IngoStem)
@@ -844,6 +847,11 @@
       border-color: var(--ingos-blue);
     }
 
+    .btn-submit-order:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
     footer {
       background: #fff;
       border-top: 1px solid var(--border-color);
@@ -859,20 +867,17 @@
   <header>
     <div class="header-inner">
       <div class="header-left">
-        <!-- Бургер-кнопка меню -->
         <button class="btn-burger" onclick="openDrawer('burgerDrawer')" aria-label="Открыть меню категорий">
           <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
-        <!-- Небесно-голубой текстовый логотип -->
         <div class="brand-logo" onclick="filterCategory('Все')" title="На главную / Все товары">
           <span class="brand-text">ИнгоШоп</span>
         </div>
       </div>
 
-      <!-- Иконка корзины -->
       <div class="header-actions">
         <button class="btn-icon" onclick="openDrawer('cartDrawer')" aria-label="Открыть корзину">
           <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -885,13 +890,10 @@
   </header>
 
   <main>
-    <!-- ============================================================
-         БОЛЬШОЙ СЛАЙДЕР КОЛЛЕКЦИЙ
-         ============================================================ -->
+    <!-- Большой слайдер коллекций -->
     <div class="hero-slider" id="heroSlider" onmouseenter="pauseSlider()" onmouseleave="startSlider()">
       <div class="slider-track" id="sliderTrack"></div>
 
-      <!-- Стрелки навигации -->
       <button class="slider-arrow prev" onclick="moveSlide(-1)" aria-label="Предыдущий слайд">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <polyline points="15 18 9 12 15 6"></polyline>
@@ -903,7 +905,6 @@
         </svg>
       </button>
 
-      <!-- Точки-индикаторы -->
       <div class="slider-dots" id="sliderDots"></div>
     </div>
 
@@ -929,7 +930,7 @@
     </div>
   </div>
 
-  <!-- Корзина со всеми полями заказа -->
+  <!-- Корзина с оформлением заказа -->
   <div class="drawer drawer-right" id="cartDrawer">
     <div class="drawer-header">
       <h3 style="font-size: 15px; font-weight: 600;">Корзина</h3>
@@ -1012,6 +1013,15 @@
   <div class="overlay" id="backdropOverlay" onclick="closeAllDrawers()"></div>
 
   <script>
+    /* ============================================================
+       ИНИЦИАЛИЗАЦИЯ EMAILJS С ВАШИМ PUBLIC KEY
+       ============================================================ */
+    (function() {
+      emailjs.init({
+        publicKey: "LxPPH0emwcxAc_NEG"
+      });
+    })();
+
     /* ============================================================
        ДАННЫЕ ДЛЯ БОЛЬШОГО СЛАЙДЕРА КОЛЛЕКЦИЙ
        ============================================================ */
@@ -1940,8 +1950,16 @@
       updateCartUI();
     }
 
+    /* ============================================================
+       ОТПРАВКА ЗАЯВКИ ЧЕРЕЗ EMAILJS
+       ============================================================ */
     function submitOrder(e) {
       e.preventDefault();
+      
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Отправка заявки...';
+
       const lastName = document.getElementById('orderLastName').value.trim();
       const firstName = document.getElementById('orderFirstName').value.trim();
       const middleName = document.getElementById('orderMiddleName').value.trim();
@@ -1951,12 +1969,46 @@
 
       const orderNumber = 'ING-2026-' + Math.floor(1000 + Math.random() * 9000);
 
-      alert(`Спасибо, ${lastName} ${firstName} ${middleName}!\n\nВаша заявка №${orderNumber} успешно принята в обработку.\n\nДанные для доставки:\n• Телефон: ${phone}\n• Почта: ${email}\n• Адрес: ${address}`);
+      // Форматируем список товаров для текста письма
+      const itemsListText = cart.map(item => {
+        let details = [];
+        if (item.size) details.push(`Размер/Тип: ${item.size}`);
+        if (item.color) details.push(`Цвет: ${item.color}`);
+        details.push(`Кол-во: ${item.qty} шт.`);
+        return `• ${item.title} (${details.join(', ')})`;
+      }).join('\n');
 
-      cart = [];
-      saveCart();
-      closeAllDrawers();
-      e.target.reset();
+      // Параметры для подстановки в шаблон EmailJS
+      const templateParams = {
+        to_name: `${lastName} ${firstName} ${middleName}`,
+        to_email: email,
+        phone: phone,
+        address: address,
+        order_number: orderNumber,
+        order_items: itemsListText
+      };
+
+      // Отправка письма с использованием указанных Service ID и Template ID
+      emailjs.send('service_414vsk7', 'template_5izmlyq', templateParams)
+        .then(() => {
+          alert(`Спасибо, ${firstName}!\n\nВаша заявка №${orderNumber} успешно принята.\nНа почту ${email} отправлено подтверждение.`);
+          cart = [];
+          saveCart();
+          closeAllDrawers();
+          e.target.reset();
+        })
+        .catch((error) => {
+          console.error('Ошибка отправки через EmailJS:', error);
+          alert(`Заказ №${orderNumber} принят, но произошла ошибка отправки письма на почту. Мы свяжемся с вами по телефону.`);
+          cart = [];
+          saveCart();
+          closeAllDrawers();
+          e.target.reset();
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Отправить заявку';
+        });
     }
   </script>
 </body>
